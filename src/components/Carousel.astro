@@ -282,9 +282,20 @@ const {
       this.viewport.style.setProperty('--dynamic-tab-width', `${tabWidth}px`);
 
       const items = this.getItems();
-      const totalItems = items.length;
-      const visibleCount = this.getVisibleCount();
-      this.maxIndex = Math.max(0, totalItems - visibleCount);
+      if (items.length === 0) {
+        this.maxIndex = 0;
+        return;
+      }
+      const firstItem = items[0];
+      const maxShift = Math.max(0, this.track.scrollWidth - this.viewport.clientWidth);
+      let foundMax = items.length - 1;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].offsetLeft - firstItem.offsetLeft >= maxShift) {
+          foundMax = i;
+          break;
+        }
+      }
+      this.maxIndex = foundMax;
 
       if (this.currentIndex > this.maxIndex) {
         this.currentIndex = this.maxIndex;
@@ -303,9 +314,25 @@ const {
       // Auf Bildschirmen < 640px erlauben wir dem Track, bis zum tatsächlichen Element-Offset zu fahren
       const isMobile = window.innerWidth < 640;
       const maxShift = Math.max(0, this.track.scrollWidth - this.viewport.clientWidth);
-      const shift = isMobile 
+      let shift = isMobile 
         ? Math.max(0, rawShift) 
         : Math.min(Math.max(0, rawShift), maxShift);
+
+      // Anti-Clipping bei Rand-Kacheln:
+      // Prüfe, ob die Zielkachel oder die expandierte Kachel über den sichtbaren rechten Rand hinausragt
+      const viewportWidth = this.viewport.clientWidth;
+      const expandedItem = items.find((el) => el.getAttribute('data-expanded') === 'true');
+      const itemsToCheck = expandedItem && expandedItem !== targetItem
+        ? [targetItem, expandedItem]
+        : [targetItem];
+
+      for (const item of itemsToCheck) {
+        const itemOffset = item.offsetLeft;
+        const itemWidth = item.offsetWidth;
+        if (itemOffset + itemWidth > shift + viewportWidth) {
+          shift = Math.min(maxShift, Math.max(shift, itemOffset + itemWidth - viewportWidth));
+        }
+      }
 
       this.track.style.transform = `translateX(-${shift}px)`;
 
@@ -489,7 +516,8 @@ const {
       const observer = new MutationObserver((mutations) => {
         for (const m of mutations) {
           if (m.type === 'attributes' && m.attributeName === 'data-expanded') {
-            this.updateViewportHeight();
+            this.updateDimensions();
+            this.render();
             break;
           }
         }
