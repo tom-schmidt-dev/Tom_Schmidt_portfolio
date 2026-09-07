@@ -60,45 +60,14 @@ const projectClusters = [
             ))}
 
             {cluster.hasPlaceholder && (
-              <article 
-                class="project-card group relative flex flex-col justify-between border border-dashed border-zinc-300 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40 p-5 sm:p-6 opacity-50 select-none transition-[height,border-color] duration-200 ease-out w-[260px] max-w-[calc(100cqi-1rem)] min-w-0 sm:min-w-[260px] shrink-0"
-                style="--zone-header-h: 7.25rem;"
-              >
-                <!-- Zone 1: Header / Titel -->
-                <div class="h-[var(--zone-header-h)] flex flex-col justify-between pb-2 mb-0 border-b border-zinc-100 dark:border-zinc-800/80">
-                  <div class="flex items-center justify-between gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
-                    <span class="uppercase tracking-wider">
-                      // Weitere folgen...
-                    </span>
-                    <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-800 text-zinc-500">
-                      In Planung
-                    </span>
-                  </div>
-
-                  <h3 class="text-base font-semibold font-mono text-zinc-400 dark:text-zinc-600 tracking-tight leading-snug">
-                    ...
-                  </h3>
-                </div>
-
-                <!-- Zone 2: Tags / Skills Platzhalter -->
-                <div class="py-2.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-col justify-start shrink-0">
-                  <p class="text-sm font-mono text-zinc-400 dark:text-zinc-600 leading-relaxed">
-                    ...
-                  </p>
-                </div>
-
-                <!-- Zone 3: Bottom Status Label -->
-                <div class="flex-1 flex flex-col justify-end pt-2.5 min-h-0">
-                  <div class="flex items-center justify-between">
-                    <span class="font-mono text-xs text-zinc-500 dark:text-zinc-400">
-                      TBC
-                    </span>
-                    <span class="font-mono text-xs text-zinc-400 dark:text-zinc-600">
-                      ...
-                    </span>
-                  </div>
-                </div>
-              </article>
+              <ProjectCard project={{
+                id: "placeholder-projects",
+                title: "...",
+                category: "Weitere folgen...",
+                tabs: ["In Planung"],
+                isPlaceholder: true,
+                tags: []
+              }} />
             )}
 
           </CarouselCluster>

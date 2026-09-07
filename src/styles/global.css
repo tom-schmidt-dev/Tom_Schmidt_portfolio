@@ -28,6 +28,36 @@
   }
 }
 
+@layer components {
+  .card-tab-label {
+    writing-mode: horizontal-tb;
+    transform: rotate(0deg);
+  }
+
+  .tab-label-full {
+    display: inline;
+  }
+
+  .tab-label-short {
+    display: none;
+  }
+
+  @media (min-width: 410px) {
+    .card-tab-label {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    [data-multi-tab="true"] .tab-label-full {
+      display: none;
+    }
+
+    [data-multi-tab="true"] .tab-label-short {
+      display: inline;
+    }
+  }
+}
+
 @layer utilities {
   .border-subtle {
     @apply border border-zinc-200 dark:border-zinc-800;
