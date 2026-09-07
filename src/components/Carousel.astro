@@ -137,9 +137,16 @@ const {
     }
   }
 
+  /* =========================================================================
+     Responsive Spaltenberechnung & Layout-Ausdehnung via Container Queries
+     ========================================================================= */
+
   .carousel-track {
-    padding-left: var(--fade-width);
-    padding-right: var(--fade-width);
+    --carousel-gap: 1.5rem;
+    gap: var(--carousel-gap);
+    --card-width: calc(100cqi - (2 * var(--fade-width, 1rem)));
+    padding-left: var(--fade-width, 1rem);
+    padding-right: var(--fade-width, 1rem);
   }
 
   .carousel-root [data-expandable-card] {
@@ -184,36 +191,34 @@ const {
     min-height: var(--card-height-collapsed);
   }
 
-  /* =========================================================================
-     Responsive Spaltenberechnung & Layout-Ausdehnung
-     ========================================================================= */
-
-  /* Mobil (< 640px): 1 Kachel pro Ansicht */
   .carousel-track > * {
-    flex: 0 0 calc(100cqi - (2 * var(--fade-width, 1rem)));
-    width: calc(100cqi - (2 * var(--fade-width, 1rem)));
-    max-width: calc(100cqi - (2 * var(--fade-width, 1rem)));
+    flex: 0 0 var(--card-width);
+    width: var(--card-width);
+    max-width: var(--card-width);
     min-width: 0;
     box-sizing: border-box;
   }
 
-  /* Tablet (ab 640px): 2 Kacheln nebeneinander */
-  @media (min-width: 640px) {
-    .carousel-track > * {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      min-width: 0;
+  /* Tablet (@container (min-width: 640px)): 2 Kacheln nebeneinander */
+  @container (min-width: 640px) {
+    .carousel-track {
+      --card-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--carousel-gap)) / 2);
+      padding-left: var(--fade-width, 2.5rem);
+      padding-right: var(--fade-width, 2.5rem);
+    }
+
+    .carousel-track > [data-expand-width="double"][data-expanded="true"] {
+      --card-width-expanded: calc(2 * var(--card-width) + var(--carousel-gap));
+      flex: 0 0 var(--card-width-expanded);
+      width: var(--card-width-expanded);
+      max-width: var(--card-width-expanded);
     }
   }
 
-  /* Desktop (ab 1024px): 3 Kacheln nebeneinander */
-  @media (min-width: 1024px) {
-    .carousel-track > * {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
-      min-width: 0;
+  /* Desktop (@container (min-width: 1024px)): 3 Kacheln nebeneinander */
+  @container (min-width: 1024px) {
+    .carousel-track {
+      --card-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--carousel-gap))) / 3);
     }
   }
 
