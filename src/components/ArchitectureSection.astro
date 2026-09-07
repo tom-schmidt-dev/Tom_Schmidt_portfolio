@@ -1,0 +1,59 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import Carousel from './Carousel.astro';
+
+const placeholderArchitectureProjects = [
+  {
+    id: "arch-placeholder-1",
+    title: "...",
+    category: "Software-Architektur",
+    period: "In Vorbereitung",
+    description: "...",
+    isPlaceholder: true,
+    tags: []
+  },
+  {
+    id: "arch-placeholder-2",
+    title: "...",
+    category: "Clean Code & Entwurfsmuster",
+    period: "In Vorbereitung",
+    description: "...",
+    isPlaceholder: true,
+    tags: []
+  }
+];
+---
+
+<section id="architecture" class="scroll-mt-24 py-16 md:py-24 border-b border-zinc-200 dark:border-zinc-800 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header (Symmetrical two-stage structure) -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
+      <div>
+        <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
+          // 04. Erfolgreiche Projekte
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+          Architektur & Software Engineering
+        </h2>
+        <p class="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
+          Themenschwerpunkt auf Clean Code, SOLID-Prinzipien, modularen Entwurfsmustern, testgetriebener Entwicklung und entkoppelten Systemarchitekturen.
+        </p>
+      </div>
+
+      <div class="flex items-center">
+        <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-3 py-1.5">
+          STATUS: <strong class="text-red-600 dark:text-red-400">IN ENTWICKLUNG</strong>
+        </span>
+      </div>
+    </div>
+
+    <!-- Project Cards Carousel (Placeholder logic with strict no-fake-content rule) -->
+    <Carousel id="carousel-architecture" ariaLabel="Software-Architektur und Clean Code">
+      {placeholderArchitectureProjects.map((project) => (
+        <ProjectCard project={project} />
+      ))}
+    </Carousel>
+
+  </div>
+</section>

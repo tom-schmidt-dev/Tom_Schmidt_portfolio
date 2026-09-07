@@ -1,0 +1,403 @@
+---
+import { ArrowRight } from 'lucide-astro';
+---
+<div class="w-full">
+<section id="about" class="scroll-mt-24 relative py-12 md:py-23 min-h-[auto] border-b border-zinc-200 dark:border-zinc-800 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">
+  <div class="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Metrics / Key Specs Grid -->
+    <div class="mb-12 mt-0 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 grid grid-cols-2 lg:grid-cols-4">
+      
+      <!-- Kachel 1: Oben links (2-spaltig) / Spalte 1 (4-spaltig) -->
+      <div class="p-1 sm:p-3 border-b lg:border-b-0 border-r border-zinc-200 dark:border-zinc-800">
+        <div class="font-mono text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100">
+          <span class="inline min-[560px]:hidden">B.Sc. CS</span>
+          <span class="hidden min-[560px]:inline">B.Sc. Computer Science</span>
+        </div>
+        <div class="font-mono text-xs text-zinc-500 dark:text-zinc-400 mt-1 uppercase tracking-narrower">Schwerpunkt AI-Engineering</div>
+      </div>
+
+      <!-- Kachel 2: Oben rechts (2-spaltig) / Spalte 2 (4-spaltig) -->
+      <div class="p-1 sm:p-3 border-b lg:border-b-0 lg:border-r border-zinc-200 dark:border-zinc-800">
+        <div class="font-mono text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100">fachlich</div>
+        <div class="font-mono text-xs text-zinc-500 dark:text-zinc-400 mt-1 tracking-narrower">
+          Praxis aus Studium und <span class="hidden min-[406px]:inline min-[430px]:hidden">Privatinter.</span><span class="inline min-[406px]:hidden min-[430px]:inline">Privatinteresse</span>
+        </div>
+      </div>
+
+      <!-- Kachel 3: Unten links (2-spaltig) / Spalte 3 (4-spaltig) -->
+      <div class="p-1 sm:p-3 border-r border-zinc-200 dark:border-zinc-800">
+        <div class="font-mono text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100">sozial</div>
+        <div class="font-mono text-xs text-zinc-500 dark:text-zinc-400 mt-1 tracking-narrower">Staatlich anerkannter Erzieher</div>
+      </div>
+
+      <!-- Kachel 4: Unten rechts (2-spaltig) / Spalte 4 (4-spaltig) -->
+      <div class="p-1 sm:p-3">
+        <div class="font-mono text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100">engagiert &amp; motiviert</div>
+        <div class="font-mono text-xs text-zinc-500 dark:text-zinc-400 mt-1 tracking-narrower">Ich bringe Hands-on Mentalität mit</div>
+      </div>
+
+    </div>
+
+    <!-- 4-Column Responsive Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 min-[1665px]:grid-cols-4 gap-8 lg:gap-10 xl:gap-8 items-start">
+      
+      <!-- Spalte 1 (Foto-Einheit) -->
+      <div class="flex flex-col items-center justify-center md:self-stretch md:h-full">
+        <div class="flex flex-col items-center justify-center gap-3.5 sm:gap-4">
+          <div class="relative inline-block shrink-0 z-0 group">
+            <!-- Radialer Licht-/Schattenkranz -->
+            <div
+              class="absolute -inset-6 pointer-events-none z-0 blur-xl transition-opacity duration-300 photo-glow"
+              aria-hidden="true"
+            ></div>
+
+            <!-- Foto -->
+            <img
+              src="/foto.jpg"
+              alt="Tom Schmidt"
+              class="relative z-10 w-[11.5rem] h-[16.8rem] sm:w-[13.6rem] sm:h-[19.2rem] md:w-[14.7rem] md:h-[21.6rem] object-cover object-[80%_top] rounded-sm border border-zinc-200 dark:border-zinc-800 shrink-0"
+            />
+
+            <!-- Fotografen-Credits Overlay bei Hover / Focus -->
+            <div
+              class="absolute bottom-1 right-1 z-20 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 pointer-events-none select-none max-w-[calc(100%-0.5rem)]"
+              aria-hidden="true"
+            >
+              <span class="inline-block px-1.5 py-0.5 text-[10px] font-mono tracking-tight text-zinc-300 bg-zinc-950/80 backdrop-blur-xs border border-zinc-700/60 rounded-xs truncate">
+                © Foto for Life Berlin <br>— Fotostudio & Production
+              </span>
+            </div>
+          </div>
+
+          <div class="inline-flex items-center justify-center gap-2 px-2.5 py-1 text-xs font-mono border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+            <span>VERFÜGBAR ALS WERKSTUDENT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spalte 2 (Textspalte 1) -->
+      <div class="space-y-4">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl min-[1750px]:text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 leading-[1.12]">
+          <span class="whitespace-nowrap">Hallo, ich bin</span><br>Tom Schmidt.
+        </h1>
+        <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed pt-1">
+          Als Informatikstudent im achten Semester suche ich eine Werkstudentenstelle, bei der ich meine in Uniprojekten sowie privat gesammelte Erfahrung im Bereich KI-Engineering einbringen und vertiefen kann. Mit Kenntnissen bspw. in Python, RAG und LangGraph-Workflows sowie im Umgang mit Docker und Linux bringe ich eine solide Basis mit.
+        </p>
+      </div>
+
+      <!-- Spalte 3 (Textspalte 2) -->
+      <div class="space-y-6 flex flex-col justify-between h-full">
+        <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed pt-1">
+          Ich habe den Anspruch, mich schnellstmöglich in bestehende Strukturen einzuarbeiten, um Verantwortung für Teilaufgaben zu übernehmen. Meine Projekterfahrung, sowie, dass ich bereits alle Module meines Bachelorstudiums abgeschlossen habe, kommt mir dahingehend zugute. Für das Sommersemester 2027 strebe ich an, meine Bachelorarbeit entsprechend einer für ein Unternehmen interessanten Fragestellung zu schreiben.
+        </p>
+          <!-- CTA Action Buttons -->
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <a
+            href="#projects"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 text-xs font-mono font-medium transition-colors"
+          >
+            <span>Projekte</span>
+            <ArrowRight class="w-3.5 h-3.5" />
+          </a>
+          <a
+            href="#contact"
+            class="inline-flex items-center gap-2 px-6 py-3 border border-zinc-300 dark:border-zinc-700 hover:border-zinc-900 dark:hover:border-zinc-100 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 text-xs font-mono font-medium transition-colors"
+          >
+            <span>Kontakt aufnehmen</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Spalte 4 (Spezifikation & Chatbot mit Tab-Umschaltung) -->
+      <div class="flex flex-col items-center justify-center md:self-stretch md:h-full w-full">
+        <div class="spec-terminal border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-[1.4rem] font-mono flex flex-col justify-between w-full max-w-[24.5rem] h-[27.3rem] shrink-0">
+          
+          <!-- Box Header: Umschalter zwischen Short Facts und Chatbot -->
+          <div class="flex items-center justify-between pb-3.5 border-b border-zinc-200 dark:border-zinc-800 mb-[1.05rem] shrink-0">
+            
+            <button
+              type="button"
+              data-mode-tab="chat"
+              class="font-mono text-[14px] uppercase tracking-wider text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors cursor-pointer"
+            >
+              CHATBOT
+            </button>
+            <button
+              type="button"
+              data-mode-tab="facts"
+              class="font-mono text-[14px] font-bold uppercase tracking-wider text-zinc-900 dark:text-zinc-100 transition-colors cursor-pointer"
+            >
+              SHORT FACTS
+            </button>
+          </div>
+
+          <!-- Ansicht 1: Short Facts (Bestehender Inhalt & Sub-Tabs) -->
+          <div data-mode-view="facts" class="flex flex-col justify-between flex-1 min-h-0">
+            
+            <!-- Tab Panels (Scrollbar bei Überlauf) -->
+            <div class="text-zinc-700 dark:text-zinc-300 leading-snug font-mono text-[16.8px] max-[405px]:text-[15.4px] break-words overflow-y-auto pr-[0.175rem]">
+              
+              <!-- Panel 1: Status -->
+              <div data-spec-panel="status" class="space-y-3.5 block">
+                <div class="font-bold text-zinc-900 dark:text-zinc-100 text-[15.4px]">
+                  Akademischer Status:
+                </div>
+                <div class="pl-[0.7rem] border-l border-zinc-300 dark:border-zinc-700 space-y-[0.175rem]">
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span>8. Fachsemester</span>
+                  </p>
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span>Angestrebt: B.Sc., ggf. M.Sc.</span>
+                  </p>
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span>Informatik in Kultur und Gesundheit (HTW Berlin)</span>
+                  </p>
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span>Abschluss vsl.: 10.2027</span>
+                  </p>
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span><b>Aktuelles Ziel:</b> <br>Werkstudent &amp; Bachelorarbeit</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Panel 2: Kenntnisse -->
+              <div data-spec-panel="skills" class="space-y-3.5 hidden">
+                <div class="font-bold text-zinc-900 dark:text-zinc-100 text-[15.4px]">
+                  Fachlicher Schwerpunkt:
+                </div>
+                <div class="pl-[0.7rem] border-l border-zinc-300 dark:border-zinc-700 space-y-[0.175rem]">
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span>LLMs: Integration und Anpassung</span>
+                  </p>
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span>KI-Agenten: Implementierung &amp; Anwendung</span>
+                  </p>
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span>Infrastruktur: Virtualisierung &amp; Linux</span>
+                  </p>
+                  <p class="flex items-start gap-[0.35rem]">
+                    <span class="select-none shrink-0">&bull;</span>
+                    <span>Architektur: Clean Code &amp; Entwurfsmuster</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Panel 3: Werdegang -->
+              <div data-spec-panel="cv" class="space-y-3.5 hidden">
+                <div class="font-bold text-zinc-900 dark:text-zinc-100 text-[15.4px]">
+                  Werdegang &amp; Softskills:
+                </div>
+                <div class="pl-[0.7rem] border-l border-zinc-300 dark:border-zinc-700 space-y-[0.35rem]">
+                  <div>
+                    <p class="flex items-start gap-[0.35rem]">
+                      <span class="select-none shrink-0">&bull;</span>
+                      <span>Abitur: Leistungskurs Informatik</span>
+                    </p>
+                    <div class="pl-[1.225rem] pt-[0.175rem] space-y-[0.175rem] text-zinc-500 dark:text-zinc-400">
+                      <p class="flex items-start gap-[0.35rem]">
+                        <span class="select-none shrink-0">&bull;</span>
+                        <span>Java, OOP</span>
+                      </p>
+                    </div>
+
+                    <p class="flex items-start gap-[0.35rem]">
+                      <span class="select-none shrink-0">&bull;</span>
+                      <span>Staatlich anerkannter Erzieher</span>
+                    </p>
+                    <!-- Eingerückte Unterpunkte -->
+                    <div class="pl-[1.225rem] pt-[0.175rem] space-y-[0.175rem] text-zinc-500 dark:text-zinc-400">
+                      <p class="flex items-start gap-[0.35rem]">
+                        <span class="select-none shrink-0">&bull;</span>
+                        <span>Kommunikation &amp; Konfliktmanagement</span>
+                      </p>
+                      <p class="flex items-start gap-[0.35rem]">
+                        <span class="select-none shrink-0">&bull;</span>
+                        <span>Eigenverantwortliche Arbeitsweise</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Box Footer: Sub-Tabs [01], [02], [03] -->
+            <div class="mt-[0.7rem] pt-3.5 border-t border-zinc-200 dark:border-zinc-800 grid grid-cols-3 gap-[0.35rem] w-full shrink-0">
+              <button
+                type="button"
+                data-spec-tab="status"
+                class="spec-tab-btn w-full text-center px-[0.175rem] py-[0.35rem] text-[14px] tracking-tight whitespace-nowrap border transition-colors border-zinc-900 dark:border-zinc-100 bg-transparent text-zinc-950 dark:text-white cursor-pointer"
+              >
+                [01]<span class="hidden min-[1900px]:inline">&nbsp;<br>STATUS</span>
+              </button>
+              <button
+                type="button"
+                data-spec-tab="skills"
+                class="spec-tab-btn w-full text-center px-[0.175rem] py-[0.35rem] text-[14px] tracking-tight whitespace-nowrap border transition-colors border-zinc-300 dark:border-zinc-700 bg-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 cursor-pointer"
+              >
+                [02]<span class="hidden min-[1900px]:inline">&nbsp;<br>KENNTNISSE</span>
+              </button>
+              <button
+                type="button"
+                data-spec-tab="cv"
+                class="spec-tab-btn w-full text-center px-[0.175rem] py-[0.35rem] text-[14px] tracking-tight whitespace-nowrap border transition-colors border-zinc-300 dark:border-zinc-700 bg-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 cursor-pointer"
+              >
+                [03]<span class="hidden min-[1900px]:inline">&nbsp;<br>WERDEGANG</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Ansicht 2: Chatbot -->
+          <div data-mode-view="chat" class="hidden flex-col justify-between flex-1 min-h-0">
+            
+            <!-- Chat Konversationsverlauf (scrollbar) -->
+            <div class="flex-1 overflow-y-auto space-y-[0.7rem] pr-[0.35rem] font-mono text-[16.8px] min-h-0">
+              <div class="flex items-start gap-[0.525rem] text-zinc-600 dark:text-zinc-400">
+                <span class="text-zinc-400 dark:text-zinc-500 font-bold shrink-0">[bot]:</span>
+                <span class="italic text-zinc-500 dark:text-zinc-400">coming soon!</span>
+              </div>
+            </div>
+
+            <!-- Chat Bottom Input Bar -->
+            <div class="mt-[0.7rem] pt-3.5 border-t border-zinc-200 dark:border-zinc-800 shrink-0">
+              <form onsubmit="event.preventDefault();" class="flex items-center gap-[0.525rem] w-full">
+                <input
+                  type="text"
+                  placeholder="Nachricht eingeben..."
+                  class="flex-1 bg-transparent border border-zinc-300 dark:border-zinc-700 px-[0.7rem] py-[0.35rem] text-[15.4px] font-mono text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-zinc-900 dark:focus:border-zinc-100"
+                />
+                <button
+                  type="submit"
+                  class="inline-flex items-center justify-center px-[0.7rem] py-[0.35rem] max-[449px]:px-0 max-[449px]:w-[36.4px] max-[449px]:h-[36.4px] border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/80 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-[14px] font-mono tracking-wider uppercase transition-colors shrink-0 cursor-pointer"
+                  aria-label="Nachricht senden"
+                >
+                  <!-- Textanzeige ab 450px -->
+                  <span class="hidden min-[450px]:inline">Senden</span>
+
+                  <!-- Senden-Icon unter 450px -->
+                  <svg
+                    class="w-[16.8px] h-[16.8px] min-[450px]:hidden -ml-px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="m22 2-7 20-4-9-9-4Z"></path>
+                    <path d="M22 2 11 13"></path>
+                  </svg>
+                </button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    <!-- Schließt das 4-Column Grid (aus Zeile 39) -->
+    </div>
+
+  <!-- Schließt den Breiten-Container max-w-[90rem] (aus Zeile 6) -->
+  </div>
+  <script>
+    function initTerminal() {
+      const terminals = document.querySelectorAll<HTMLElement>('.spec-terminal');
+      terminals.forEach((terminal) => {
+        if (terminal.dataset.initialized === 'true') return;
+        terminal.dataset.initialized = 'true';
+        // --- 1. Hauptmodus-Umschaltung (Short Facts <-> Chatbot) ---
+        const modeTabs = terminal.querySelectorAll<HTMLButtonElement>('[data-mode-tab]');
+        const viewFacts = terminal.querySelector<HTMLElement>('[data-mode-view="facts"]');
+        const viewChat = terminal.querySelector<HTMLElement>('[data-mode-view="chat"]');
+
+        modeTabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            const targetMode = tab.getAttribute('data-mode-tab');
+
+            modeTabs.forEach((t) => {
+              t.classList.remove('font-bold', 'text-zinc-900', 'dark:text-zinc-100');
+              t.classList.add('text-zinc-400', 'dark:text-zinc-500');
+            });
+            tab.classList.remove('text-zinc-400', 'dark:text-zinc-500');
+            tab.classList.add('font-bold', 'text-zinc-900', 'dark:text-zinc-100');
+
+            if (targetMode === 'facts') {
+              viewFacts?.classList.remove('hidden');
+              viewFacts?.classList.add('flex');
+              viewChat?.classList.add('hidden');
+              viewChat?.classList.remove('flex');
+            } else if (targetMode === 'chat') {
+              viewChat?.classList.remove('hidden');
+              viewChat?.classList.add('flex');
+              viewFacts?.classList.add('hidden');
+              viewFacts?.classList.remove('flex');
+            }
+          });
+        });
+
+        // --- 2. Sub-Tabs für Short Facts ([01], [02], [03]) ---
+        const tabs = terminal.querySelectorAll<HTMLButtonElement>('[data-spec-tab]');
+        const panels = terminal.querySelectorAll<HTMLElement>('[data-spec-panel]');
+
+        const activeClasses = [
+          'border-zinc-900',
+          'dark:border-zinc-100',
+          'bg-transparent',
+          'text-zinc-950',
+          'dark:text-white'
+        ];
+        const inactiveClasses = [
+          'border-zinc-300',
+          'dark:border-zinc-700',
+          'bg-transparent',
+          'text-zinc-500',
+          'hover:text-zinc-900',
+          'dark:hover:text-zinc-100'
+        ];
+
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            const targetKey = tab.getAttribute('data-spec-tab');
+
+            tabs.forEach((t) => {
+              t.classList.remove(...activeClasses);
+              t.classList.add(...inactiveClasses);
+            });
+            tab.classList.remove(...inactiveClasses);
+            tab.classList.add(...activeClasses);
+
+            panels.forEach((panel) => {
+              if (panel.getAttribute('data-spec-panel') === targetKey) {
+                panel.classList.remove('hidden');
+                panel.classList.add('block');
+              } else {
+                panel.classList.add('hidden');
+                panel.classList.remove('block');
+              }
+            });
+          });
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initTerminal);
+    document.addEventListener('astro:page-load', initTerminal);
+  </script>
+
+</section>
+</div>

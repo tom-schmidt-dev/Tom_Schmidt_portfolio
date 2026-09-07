@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ArrowLeft, ShieldCheck, Server, Globe, Mail, Lock, ShieldAlert } from 'lucide-astro';
+---
+
+<BaseLayout
+  title="Datenschutzerklärung | tom-schmidt.dev"
+  description="Informationen zur Verarbeitung personenbezogener Daten gemäß Art. 13 DSGVO."
+  noindex={true}
+>
+  <div class="py-12 md:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Back Navigation -->
+      <div class="mb-8">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-xs font-mono text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+        >
+          <ArrowLeft class="w-3.5 h-3.5" />
+          <span>Zurück zur Übersicht</span>
+        </a>
+      </div>
+
+      <!-- Section Header -->
+      <div class="pb-6 mb-10 border-b border-zinc-200 dark:border-zinc-800">
+        <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
+          // Datenschutz
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+          Datenschutzerklärung
+        </h1>
+        <p class="text-zinc-600 dark:text-zinc-400 text-sm mt-2 font-mono">
+          Informationen nach Art. 13 und 14 der Datenschutz-Grundverordnung (DSGVO)
+        </p>
+      </div>
+
+      <!-- Content -->
+      <div class="space-y-10 text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed font-sans">
+        
+        <!-- 1. Verantwortliche Stelle -->
+        <section class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 sm:p-8 space-y-4">
+          <div class="flex items-center gap-2 text-zinc-900 dark:text-zinc-100 font-mono text-xs uppercase tracking-wider font-semibold">
+            <ShieldCheck class="w-4 h-4 text-zinc-500" />
+            <span>1. Verantwortlicher</span>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) und des Bundesdatenschutzgesetzes (BDSG) ist:
+          </p>
+          <div class="text-xs font-mono text-zinc-900 dark:text-zinc-100 pl-3 border-l border-zinc-300 dark:border-zinc-700 space-y-1">
+            <p class="font-bold">Tom Schmidt</p>
+            <p>Gärtnerstr. 8</p>
+            <p>13055 Berlin</p>
+            <p>Deutschland</p>
+            <p class="pt-2">E-Mail: <a href="mailto:kontakt@tom-schmidt.dev" class="hover:underline">kontakt@tom-schmidt.dev</a></p>
+          </div>
+        </section>
+
+        <!-- 2. Bereitstellung der Website & Hosting -->
+        <section class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 sm:p-8 space-y-4">
+          <div class="flex items-center gap-2 text-zinc-900 dark:text-zinc-100 font-mono text-xs uppercase tracking-wider font-semibold">
+            <Server class="w-4 h-4 text-zinc-500" />
+            <span>2. Hosting &amp; Server-Logfiles</span>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            Diese Website wird auf einem eigenen Server (Homeserver) betrieben. Beim Aufruf der Website erfasst das System automatisiert Daten und Informationen vom System des aufrufenden Rechners in sogenannten Server-Logfiles:
+          </p>
+          <div class="space-y-2 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+            <ul class="list-disc pl-5 space-y-1">
+              <li>IP-Adresse des Nutzers</li>
+              <li>Datum und Uhrzeit des Zugriffs</li>
+              <li>Aufgerufene Seite bzw. Ressource</li>
+              <li>HTTP-Statuscode und übertragene Datenmenge</li>
+              <li>Browsertyp, Version und Betriebssystem (User-Agent)</li>
+            </ul>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Das berechtigte Interesse liegt in der Stabilität, IT-Sicherheit und Fehlerdiagnose des Servers sowie in der Abwehr schädlicher Angriffe.
+          </p>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            <strong>Speicherdauer:</strong> Die Daten werden ausschließlich für Sicherheitszwecke vorgehalten und nach spätestens 30 Tagen automatisiert gelöscht oder überschrieben, sofern keine Vorfälle eine längere Aufbewahrung zu Beweiszwecken erfordern.
+          </p>
+        </section>
+
+        <!-- 3. Content Delivery Network & Reverse Proxy (Cloudflare) -->
+        <section class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 sm:p-8 space-y-4">
+          <div class="flex items-center gap-2 text-zinc-900 dark:text-zinc-100 font-mono text-xs uppercase tracking-wider font-semibold">
+            <Globe class="w-4 h-4 text-zinc-500" />
+            <span>3. Cloudflare Tunnel &amp; CDN</span>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            Zur sicheren Bereitstellung, Beschleunigung und DDoS-Abwehr wird der Dienst Cloudflare Zero Trust / Cloudflare Tunnel genutzt. Anbieter ist die Cloudflare Inc., 101 Townsend St, San Francisco, CA 94107, USA.
+          </p>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            Der Datenverkehr wird über das globale Edge-Netzwerk von Cloudflare geroutet. Cloudflare verarbeitet die IP-Adresse und technische Metadaten der Anfrage, um Angriffe abzuwehren und Ladezeiten zu optimieren.
+          </p>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren und performanten Bereitstellung).
+          </p>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            <strong>Datenübertragung in Drittstaaten:</strong> Cloudflare ist nach dem EU-US Data Privacy Framework (DPF) zertifiziert. Zudem besteht eine Vereinbarung zur Auftragsverarbeitung (Data Processing Addendum, DPA) einschließlich Standardvertragsklauseln.
+          </p>
+        </section>
+
+        <!-- 4. SSL- / TLS-Verschlüsselung -->
+        <section class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 sm:p-8 space-y-4">
+          <div class="flex items-center gap-2 text-zinc-900 dark:text-zinc-100 font-mono text-xs uppercase tracking-wider font-semibold">
+            <Lock class="w-4 h-4 text-zinc-500" />
+            <span>4. SSL- bzw. TLS-Verschlüsselung</span>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine durchgehende SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://" auf „https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
+          </p>
+        </section>
+
+        <!-- 5. Cookies, Tracking & Lokale Speicherung -->
+        <section class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 sm:p-8 space-y-4">
+          <div class="flex items-center gap-2 text-zinc-900 dark:text-zinc-100 font-mono text-xs uppercase tracking-wider font-semibold">
+            <Lock class="w-4 h-4 text-zinc-500" />
+            <span>5. Keine Tracking-Cookies, kein Web-Tracking</span>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            Auf dieser Website werden <strong>weder Cookies noch Tracking- oder Analysedienste Dritter</strong> eingesetzt. 
+          </p>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            Im lokalen Speicher Ihres Browsers (<code class="font-mono text-xs bg-zinc-100 dark:bg-zinc-800 px-1 py-0.5">localStorage</code>) wird ausschließlich die Einstellung für das Farbschema (Hell- oder Dunkelansicht) abgelegt. Dies dient der nutzerfreundlichen Bereitstellung der Darstellung (§ 25 Abs. 2 Nr. 2 TDDDG).
+          </p>
+        </section>
+
+        <!-- 6. Kontaktaufnahme per E-Mail -->
+        <section class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 sm:p-8 space-y-4">
+          <div class="flex items-center gap-2 text-zinc-900 dark:text-zinc-100 font-mono text-xs uppercase tracking-wider font-semibold">
+            <Mail class="w-4 h-4 text-zinc-500" />
+            <span>6. Kontaktaufnahme</span>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            Bei einer Kontaktaufnahme per E-Mail werden die mitgeteilten Daten (wie E-Mail-Adresse, Name und Inhalt der Nachricht) gespeichert, um die Anfrage zu bearbeiten und etwaige Anschlussfragen zu beantworten.
+          </p>
+          <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+            <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (sofern die Anfrage auf die Anbahnung einer Tätigkeit oder eines Vertrags abzielt) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Korrespondenz). Die Daten werden gelöscht, sobald die Anfrage abschließend geklärt ist und keine Aufbewahrungspflichten entgegenstehen.
+          </p>
+        </section>
+
+        <!-- 7. Rechte der betroffenen Person -->
+        <section class="space-y-6 pt-2">
+          <div class="space-y-3">
+            <h2 class="font-mono text-xs font-semibold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+              7. Ihre Rechte als betroffene Person
+            </h2>
+            <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              Ihnen stehen im Rahmen der geltenden gesetzlichen Bestimmungen folgende Rechte bezüglich Ihrer personenbezogenen Daten zu:
+            </p>
+            <ul class="list-disc pl-5 space-y-1.5 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+              <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
+              <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
+              <li>Recht auf Löschung (Art. 17 DSGVO)</li>
+              <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+              <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+              <li>Recht auf Widerruf erteilter Einwilligungen (Art. 7 Abs. 3 DSGVO)</li>
+            </ul>
+          </div>
+
+          <!-- Besonderer Kasten: Widerspruchsrecht Art. 21 DSGVO -->
+          <div class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-5 space-y-2">
+            <div class="flex items-center gap-2 text-zinc-900 dark:text-zinc-100 font-mono text-xs uppercase tracking-wider font-semibold">
+              <ShieldAlert class="w-4 h-4 text-zinc-500" />
+              <span>Widerspruchsrecht nach Art. 21 DSGVO</span>
+            </div>
+            <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              Erfolgt die Datenverarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse), haben Sie das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Ihrer personenbezogenen Daten Widerspruch einzulegen.
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <h3 class="font-mono text-xs font-semibold uppercase tracking-wider text-zinc-900 dark:text-zinc-100">
+              Beschwerderecht bei der Aufsichtsbehörde
+            </h3>
+            <p class="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              Im Falle datenschutzrechtlicher Verstöße steht Ihnen ein Beschwerderecht bei einer zuständigen Aufsichtsbehörde zu (Art. 77 DSGVO). Die für den Betreiber zuständige Behörde ist:
+            </p>
+            <div class="text-xs font-mono text-zinc-700 dark:text-zinc-300 pl-4 border-l border-zinc-300 dark:border-zinc-700 space-y-0.5">
+              <p class="font-semibold">Berliner Beauftragte für Datenschutz und Informationsfreiheit</p>
+              <p>Alt-Moabit 59–61, 10555 Berlin</p>
+              <p>Telefon: +49 (0)30 13889-0 &middot; E-Mail: mailbox@datenschutz-berlin.de</p>
+              <p>Website: <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener noreferrer" class="hover:underline">www.datenschutz-berlin.de</a></p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</BaseLayout>

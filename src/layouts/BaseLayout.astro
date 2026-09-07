@@ -1,0 +1,123 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = "tom-schmidt.dev | Informatik & KI-Systeme",
+  description = "Portfolio mit Fokus auf RAG-Systeme, Machine Learning, Backend-Services mit FastAPI und Virtualisierung.",
+  noindex = false,
+} = Astro.props;
+
+import '../styles/global.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/600.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource/plus-jakarta-sans/400.css';
+import '@fontsource/plus-jakarta-sans/500.css';
+import '@fontsource/plus-jakarta-sans/600.css';
+import '@fontsource/plus-jakarta-sans/700.css';
+
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="de" class="scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    
+    <!-- Open Graph / Meta -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/favicon.svg" />
+    <meta name="theme-color" content="#18181b" />
+
+    <script is:inline>
+      // Initialize theme mode
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          return 'light';
+        }
+        return 'dark';
+      })();
+
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 font-sans antialiased">
+    <Navbar />
+
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <script>
+      function setupAnchorHighlighting() {
+        if (document.body.dataset.anchorHighlightInit === 'true') return;
+        document.body.dataset.anchorHighlightInit = 'true';
+
+        // 1. Klick auf Sprungmarken: Highlighting starten
+        document.addEventListener('click', (event) => {
+          const target = event.target as HTMLElement | null;
+          const link = target?.closest<HTMLAnchorElement>('a[href^="#"]');
+          if (!link) return;
+
+          const href = link.getAttribute('href');
+          if (!href || href === '#') return;
+
+          const targetSection = document.querySelector<HTMLElement>(href);
+          if (!targetSection) return;
+
+          // Eventuell laufende Animationen zurücksetzen und neu anstoßen
+          targetSection.classList.remove('is-highlighted');
+          void targetSection.offsetWidth;
+          targetSection.classList.add('is-highlighted');
+
+          // Automatische Bereinigung nach Ablauf, falls kein Mouseover stattfindet
+          const onAnimationEnd = (e: AnimationEvent) => {
+            if (e.target !== targetSection) return;
+            targetSection.classList.remove('is-highlighted');
+            targetSection.removeEventListener('animationend', onAnimationEnd);
+          };
+
+          targetSection.addEventListener('animationend', onAnimationEnd);
+        });
+
+        // 2. Mouseover-Steuerung: Prüfen, ob Klick-Highlighting aktiv ist
+        document.addEventListener('mouseover', (event) => {
+          const target = event.target as HTMLElement | null;
+          const section = target?.closest<HTMLElement>('section');
+
+          // Wenn die Sektion gerade per Klick animiert wird, sofort abbrechen
+          if (section && section.classList.contains('is-highlighted')) {
+            section.classList.remove('is-highlighted');
+          }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', setupAnchorHighlighting);
+      document.addEventListener('astro:page-load', setupAnchorHighlighting);
+    </script>
+    <script src="../scripts/cardExpander.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+---
+import Carousel from './Carousel.astro';
+import CarouselCluster from './CarouselCluster.astro';
+import ProjectCard from './ProjectCard.astro';
+import projectsData from '../data/projects.json';
+
+const projectClusters = [
+  {
+    groupFlag: "RAG & LLM",
+    projects: [projectsData[0], projectsData[1]],
+    hasPlaceholder: false,
+  },
+  {
+    groupFlag: "Machine Learning",
+    projects: [projectsData[2], projectsData[4]],
+    hasPlaceholder: false,
+  },
+  {
+    groupFlag: "Infrastruktur",
+    projects: [projectsData[3]],
+    hasPlaceholder: true,
+  },
+];
+---
+
+<section id="projects" class="scroll-mt-24 py-16 md:py-24 border-b border-zinc-200 dark:border-zinc-800 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header (Symmetrical two-stage structure) -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4 pb-6 border-b border-zinc-200 dark:border-zinc-800">
+      <div>
+        <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
+          // 03. Erfahrung
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+          Details zu meinen Projekten
+        </h2>
+        <p class="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
+          AI-Engineering, Infrastruktur, Clean Architecture
+        </p>
+      </div>
+
+      <div class="flex items-center">
+        <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-3 py-1.5">
+          <!-- GESAMT: <strong class="text-zinc-900 dark:text-zinc-100">{projectsData.length} PROJEKTE</strong> -->
+          STATUS: <strong class="text-red-600 dark:text-red-400">IN ENTWICKLUNG</strong>
+        </span>
+      </div>
+    </div>
+
+    <!-- Project Cards Carousel -->
+    <div class="carousel-zoom-wrapper">
+      <Carousel id="carousel-projects" ariaLabel="Künstliche Intelligenz und RAG-Systeme" cardHeightCollapsed="23.5rem">
+
+        {projectClusters.map((cluster) => (
+          
+          <CarouselCluster groupFlag={cluster.groupFlag}>
+            {cluster.projects.map((project) => (
+              <ProjectCard project={project} />
+            ))}
+
+            {cluster.hasPlaceholder && (
+              <article 
+                class="project-card group relative flex flex-col justify-between border border-dashed border-zinc-300 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40 p-5 sm:p-6 opacity-50 select-none transition-[height,border-color] duration-200 ease-out w-[260px] max-w-[calc(100cqi-1rem)] min-w-0 sm:min-w-[260px] shrink-0"
+                style="--zone-header-h: 7.25rem;"
+              >
+                <!-- Zone 1: Header / Titel -->
+                <div class="h-[var(--zone-header-h)] flex flex-col justify-between pb-2 mb-0 border-b border-zinc-100 dark:border-zinc-800/80">
+                  <div class="flex items-center justify-between gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                    <span class="uppercase tracking-wider">
+                      // Weitere folgen...
+                    </span>
+                    <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-800 text-zinc-500">
+                      In Planung
+                    </span>
+                  </div>
+
+                  <h3 class="text-base font-semibold font-mono text-zinc-400 dark:text-zinc-600 tracking-tight leading-snug">
+                    ...
+                  </h3>
+                </div>
+
+                <!-- Zone 2: Tags / Skills Platzhalter -->
+                <div class="py-2.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-col justify-start shrink-0">
+                  <p class="text-sm font-mono text-zinc-400 dark:text-zinc-600 leading-relaxed">
+                    ...
+                  </p>
+                </div>
+
+                <!-- Zone 3: Bottom Status Label -->
+                <div class="flex-1 flex flex-col justify-end pt-2.5 min-h-0">
+                  <div class="flex items-center justify-between">
+                    <span class="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                      TBC
+                    </span>
+                    <span class="font-mono text-xs text-zinc-400 dark:text-zinc-600">
+                      ...
+                    </span>
+                  </div>
+                </div>
+              </article>
+            )}
+
+          </CarouselCluster>
+
+        ))}
+        
+      </Carousel>
+    </div>
+
+  </div>
+</section>

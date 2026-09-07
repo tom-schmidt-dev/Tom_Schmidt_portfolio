@@ -1,0 +1,235 @@
+[
+  {
+    "id": "speech-to-speech-rag-simulation",
+    "title": "RAG-gestütztes Sprachdialogsystem zur Simulation historischer Philosophen-Personas",
+    "period": "05.2026",
+    "description": {
+        "category": "Aufgabenstellung",
+        "items": [
+          "'Spielerische Umsetzung eines Vortrags zum Thema theoretische Grundlagen moderner Medienphilosophie'"
+          ]
+      },
+    "category": "Solo",
+    "privat": false,
+    "uni": true,
+    "tags": [
+      "Python",
+      "FastAPI",
+      "ChromaDB",
+      "Google GenAI SDK",
+      "Gemini Flash",
+      "STT / TTS",
+      "Edge-TTS",
+      "Asyncio",
+      "ffmpeg"
+    ],
+    "githubUrl": "https://[Domain]",
+    "liveUrl": "https://[Domain]",
+    "highlights": [
+      {
+        "category": "Audio-Pipeline",
+        "items": [
+          "Konvertierung mittels ffmpeg",
+          "Speech-to-Text-Transkription des Userinputs mittels Google Speech Recognition",
+          "Regex-basierte Alias-Erkennung zur automatischen dynamischen Zuordnung direkt angesprochener Denker"
+        ]
+      },
+      {
+        "category": "Daten & Preprocessing",
+        "items": [
+          "Skriptbasierte Regex-Bereinigung von Silbentrennungen, Parsing mit pypdf sowie OCR für Scans via pypdfium2 und EasyOCR",
+          "Chunking der Texte mit überlappenden Segmenten, um semantischen Kontext besser zu erhalten",
+          "Vektorisierung der Datenbasis via ChromaDB Default Embeddings (all-MiniLM-L6-v2)",
+          "Speicherung der Textsegmente inklusive Metadaten (Philosoph, Buchtitel, Seitenzahl) für Zuordbarkeit",
+          "Somit Anreicherung des Kontexts bei Generierung möglich (RAG)"
+        ]
+      },
+      {
+        "category": "Technische Umsetzung RAG",
+        "items": [
+          "Transkribierte Nutzereingabe wird in Vektorspace überführt",
+          "Semantische Ähnlichkeitssuche in Datenbasis",
+          "Filterung auf den ausgewählten/angesprochenen Philosophen via Metadaten",
+          "Die drei ähnlichsten Treffer werden dem Kontext des Models übergeben",
+          "Ergibt sehr zuverlässig überzeugende und korrekte Antworten der Persona"
+        ]
+      },
+      {
+        "category": "Prompt Engineering & Modelle",
+        "items": [
+          "Prompting-Guardrails aufgrund Intelligenz des LLMs zumutbar: Rollentreue, Thementreue",
+          "Zweistufige Pipeline mit Gemini 3.5 Flash für Dialoge und parallelem Gemini 3.1 Flash-Lite für Extraktion und Quellen-Empfehlungen"
+        ]
+      },
+      {
+        "category": "Sprachsynthese & Backend",
+        "items": [
+          "Asynchrone REST-API mit FastAPI",
+          "Duales Cloud-TTS-Setup: Native Gemini-Audiomodalität (Qualität) und via Edge-TTS (Performance)",
+          "Individuelle Stimmenzuweisung für historische Persona"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rag-text-party-analysis",
+    "title": "RAG-gestützter Chatbot zur Informationsbildung politischer Themen",
+    "period": "10.2024 – 01.2025",
+    "description": [
+      {
+        "category": " ",
+        "items": [
+          "Mitwirkung bei Konzeption und Modellauswahl", 
+          "Datenbeschaffung und Extraktion",
+          "Daten-Vorverarbeitung mittels domänespezifischer Stopwordlisten und explorativer Datenanalyse",
+          "Datenanalyse und Aufbereitung via Matplotlib und WordCloud",
+          "Versionsverwaltung und Code-Integration im Team über Git"
+          ]
+      }
+    ],
+    "category": "Gruppe",
+    "privat": false,
+    "uni": true,
+    "tags": ["Python", "Pandas", "PyTorch", "ChromaDB", "Sentence-Transformers", "Huggingface Transformers", "Matplotlib", "Gradio", "WordCloud", "lokale SLMs"],
+    "githubUrl": "https://github.com/Abodx9/Politiker-Ai/tree/main",
+    "liveUrl": "https://[Domain]",
+    "highlights": [
+      {
+        "category": "Daten & Preprocessing",
+        "items": [
+          "Skriptbasierte Bereinigung (Pandas) der Daten aus den Parteiprogrammen, ",
+          "Aufbereitung mittels domänespezifischer Stopwortlisten ",
+          "visuelle Aufbereitung mit Matplotlib, WordCloud",
+          "Vektorisierung der Datenbasis via sentence-transformers/gtr-t5-large in ChromaDB",
+          "Speicherung der Texte als Key-Value-Paar mit Parteinamen für Zuordbarkeit",
+          "Somit Anreicherung des Kontexts bei Generierung möglich (RAG)"
+        ]
+      },
+      {
+        "category": "Technische Umsetzung RAG:",
+        "items": [
+        "Userfrage wird in Vektorspace überführt",
+        "Semantisch ähnliche Daten werden in Datenbasis gesucht (quadrierter eukl. Abstand)",
+        "Ggf. auf einzelne Parteien beschränkt durch Zuordbarkeit",
+        "Die vier ähnlichsten Treffer werden dem Kontext des Models übergeben",
+        "Ergibt wesentlich verbesserte Antwortqualität der kleinen Modelle"
+        ]
+      },
+            {
+        "category": "Modelle:",
+        "items": [
+        "Einbinden 3 verschiedener lokaler SLMs via HuggingFace:",
+        "Qwen 2.5 0.5B, Phi-3.5 Mini, Hermes-3 Llama 3.2 3B",
+        "Vergleich der Antwortqualität"
+        ]
+      },
+      {
+        "category": "Implementierung Chatbot:",
+        "items": [
+        "Implementierung eines Chatinterfaces mittels Gradio",
+        "Deterministische Guardrail: Keine Antwort bei unzureichender Datenbasis aufgrund geringer Intelligenz der Modelle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "patient-ai-mhealth",
+    "title": "Web- und Mobile-App zur Wartezeitreduzierung in Arztpraxen mittels ML",
+    "period": "11.2023 – 01.2024",
+    "category": "Gruppe",
+    "privat": false,
+    "uni": true,
+    "tags": [
+      "Python",
+      "Pydantic",
+      "MongoDB",
+      "JWT",
+      "Next.js",
+      "FastAPI",
+      "React Native",
+      "Docker",
+      "Motor",
+      "Scikit-Learn"
+    ],
+    "githubUrl": "https://github.com/wklein1/mhealth-patientAI-app",
+    "liveUrl": "https://[Domain]",
+    "description": [
+      {
+        "category": " ",
+        "items": [
+          "Gemeinsame Ideenfindung und Konzeption zur datengestützten Wartezeitoptimierung in Praxen",
+          "Anforderungsanalyse und Konzeption eines MVP",
+          "Definition der Domänenmodelle, Datenstrukturen und Workflows für Praxis- und Patientenprozesse",
+          "Initialer Code-Entwurf der Kernentitäten (Praxis-Controller & Basis-Datenmodelle im Backend, Pydantic)"
+        ]
+      }
+    ],
+    "highlights": [
+      {
+        "category": "Backend",
+        "items": [
+          "generischer Data-Access-Layer zur Entkopplung von Business-Logik und Datenbank",
+          "Asynchrone Datenbankanbindung an MongoDB mittels Motor und Bereitstellung typisierter CRUD- sowie Batch-Operationen (insert_many, get_many)",
+          "Dynamische Schema- und Datenvalidierung über Pydantic-Modelle, Custom-Mixins und Validierungs-Maps für Collections"
+        ]
+      },
+      {
+        "category": "Authentifizierung per JWT",
+        "items": [
+          "Entwicklung eines Authentifizierungs-Controllers mit Passwort-Hashing (bcrypt via passlib) und signierten JWT-Tokens (PyJWT)",
+          "Modellierung eines rollenbasierten Nutzersystems (Admin, Praxis, Patient) mit Referenz-IDs zur Verknüpfung von Entitäten",
+          "Implementierung des Endpoint-Bindings zur sicheren Verknüpfung registrierter Nutzer-Accounts mit existierenden Patientendatensätzen"
+        ]
+      },
+      {
+        "category": "Schnittstellen & Vorhersage-Integration",
+        "items": [
+          "Bereitstellung von REST-Endpunkten für Praxen, Termine, Authentifizierung sowie Batch-Importe strukturierter Patientendaten",
+          "Integration der Vorhersagewerte des Machine-Learning-Modells zur Erhebung von durchschnittlichen Wartezeiten",
+          "Implementierung eines Schalters für Praxis-Datenübertragungen (Dataflow-Status) zur Steuerung des Datenzuflusses"
+        ]
+      },
+      {
+        "category": "Fullstack- & Mobile-Integration",
+        "items": [
+          "Dashboard-Frontend (Next.js): Aufbau des Administrationsbereichs zur Praxenverwaltung, Termineinsicht und Authentifizierungs-Flows",
+          "Mobile App (React Native): Anbindung von Custom Hooks (Axios) an die Backend-Routen für Terminlisten, Praxisübersichten und Login"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "homelab-infrastructure",
+    "title": "Homelab-Infrastruktur & Cloud-Services mit Proxmox und Docker",
+    "period": "07.2025 – heute",
+    "description": "Dedizierte Server- und Virtualisierungsumgebung für das selbstgehostete Betreiben von Diensten und Webprojekten. Realisiert auf Proxmox VE unter Debian mit LXC-Containern und Docker, inklusive DNS-Sinkhole (AdGuard Home), privater Nextcloud-Instanz und verschlüsseltem Fernzugriff über Cloudflare Zero Trust.",
+    "category": "Solo",
+    "privat": true,
+    "uni": false,
+    "tags": ["Proxmox VE", "Debian Linux", "Docker", "LXC", "AdGuard Home", "Nextcloud", "Cloudflare Zero Trust"],
+    "githubUrl": "https://[Domain]",
+    "liveUrl": "https://[Domain]",
+    "highlights": [
+      "Virtualisierungs- und Containerinfrastruktur mit Proxmox VE, LXC und Docker",
+      "Sicherer, portfreier Ingress via Cloudflare Zero Trust Tunnels",
+      "Netzwerkweites DNS-Filterungssystem mit AdGuard Home und Cloud-Storage"
+    ]
+  },
+  {
+    "id": "agentic-ai-local-experiments",
+    "title": "Diverse Experimente mit (lokalen) LLMs / SLMs, KI-Agenten & Automatisierung",
+    "period": "2024 – heute",
+    "description": "Systematische Entwicklung und Erprobung agentischer KI-Systeme und lokaler Sprachmodelle. Beinhaltet die Implementierung von Tool-Calling-Mechanismen, Workflow-Graphen mit LangGraph, strukturierte Agent-Loops (OpenCode, Claude Code) sowie Finetuning und Quantisierung kompakter Open-Source-Modelle.",
+    "category": "Solo",
+    "privat": true,
+    "uni": false,
+    "tags": ["Python", "LangGraph", "Tool Calling", "RAG", "Model Finetuning", "Local LLMs", "PyTorch", "N8N"],
+    "githubUrl": "https://[Domain]",
+    "liveUrl": "https://[Domain]",
+    "highlights": [
+      "Entwicklung agentischer Workflow-Graphen und Tool Calling mit LangGraph",
+      "Lokale RAG-Integration und strukturierte Prompting- & Agent-Loops",
+      "Finetuning und gezielte Datenaufbereitung für kleinere Open-Source-Modelle"
+    ]
+  }
+]

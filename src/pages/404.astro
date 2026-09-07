@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ArrowLeft } from 'lucide-astro';
+---
+
+<BaseLayout title="404 — Nicht gefunden | tom-schmidt.dev">
+  <div class="min-h-[60vh] flex items-center justify-center px-4 py-20">
+    <div class="max-w-md mx-auto text-center space-y-6">
+      <div class="inline-block font-mono text-xs px-3 py-1.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
+        404 // HTTP NOT FOUND
+      </div>
+      <h1 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+        Ressource nicht gefunden
+      </h1>
+      <p class="text-xs sm:text-sm font-mono text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        Der angeforderte Pfad existiert nicht auf diesem Server. Bitte die URL überprüfen oder zur Startseite zurückkehren.
+      </p>
+      <div class="pt-2">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 font-mono text-xs font-medium transition-colors"
+        >
+          <ArrowLeft class="w-3.5 h-3.5" />
+          <span>Zurück zur Startseite</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

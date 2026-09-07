@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Skills from '../components/Skills.astro';
+import Projects from '../components/Projects.astro';
+import ArchitectureSection from '../components/ArchitectureSection.astro';
+import { ArrowRight } from 'lucide-astro';
+---
+
+<BaseLayout
+  title="Portfolio | Informatik & KI-Systeme"
+  description="Portfolio von Tom Schmidt mit Fokus auf RAG-Systeme, Machine Learning, Backend-Entwicklung und Softwarearchitektur."
+>
+  <!-- 1. Profil / Hero-Bereich -->
+  <Hero />
+
+  <!-- 2. Technisches Profil & Fähigkeiten (Skills) -->
+  <Skills />
+
+  <!-- 3. Künstliche Intelligenz (KI-Sektion) -->
+  <Projects />
+
+  <!-- 4. Architektur & Software Engineering -->
+  <ArchitectureSection />
+
+  <!-- 5. Kontakt -->
+  <section id="contact" class="scroll-mt-24 py-16 md:py-24 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-28 items-center">
+        
+        <!-- Left: Text (Spalten 1 bis 5) -->
+        <div class="lg:col-span-5 space-y-6">
+          <div>
+            <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
+              // 05. Kontakt
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+              Kontakt &amp; Anfragen
+            </h2>
+            <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mt-3">
+              Interessiert an einer Zusammenarbeit im Rahmen einer Werkstudententätigkeit, eines Projekts oder einer praxisorientierten Bachelorarbeit? Ich freue mich über Ihre Kontaktaufnahme.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Contact Info (Spalten 7 bis 12 -> Spalte 6 bleibt leer) -->
+        <div class="lg:col-span-6 lg:col-start-7">
+          <div class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 divide-y divide-zinc-200 dark:divide-zinc-800 text-xs font-mono">
+            <div class="p-3.5 flex flex-col sm:flex-row sm:justify-between gap-1">
+              <span class="text-zinc-500">E-MAIL:</span>
+              <a href="mailto:kontakt@tom-schmidt.dev" class="text-zinc-900 dark:text-zinc-100 hover:underline">
+                kontakt@tom-schmidt.dev
+              </a>
+            </div>
+            <div class="p-3.5 flex flex-col sm:flex-row sm:justify-between gap-1">
+              <span class="text-zinc-500">LinkedIn:</span>
+              <a href="https://www.linkedin.com/in/tom-schmidt-dev/" class="text-zinc-900 dark:text-zinc-100 hover:underline">
+                Mein LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

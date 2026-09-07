@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  html {
+    font-size: 17.5px;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-variant-numeric: tabular-nums;
+  }
+
+  body {
+    @apply bg-zinc-50 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 antialiased selection:bg-zinc-900 selection:text-zinc-50 dark:selection:bg-zinc-100 dark:selection:text-zinc-900;
+  }
+
+  ::selection {
+    background-color: #18181b;
+    color: #fafafa;
+  }
+
+  .dark ::selection {
+    background-color: #f4f4f5;
+    color: #18181b;
+  }
+}
+
+@layer utilities {
+  .border-subtle {
+    @apply border border-zinc-200 dark:border-zinc-800;
+  }
+  
+  .border-subtle-t {
+    @apply border-t border-zinc-200 dark:border-zinc-800;
+  }
+
+  .border-subtle-b {
+    @apply border-b border-zinc-200 dark:border-zinc-800;
+  }
+
+  .carousel-zoom-wrapper {
+    @apply w-full;
+  }
+}
+
+@keyframes flash-highlight-light {
+  0% {
+    background-color: rgb(228 228 231 / 0.7);
+  }
+  100% {
+    background-color: rgb(228 228 231 / 0);
+  }
+  0% {
+    background-color: rgb(228 228 231 / 0.7);
+  }
+}
+
+@keyframes flash-highlight-dark {
+  0% {
+    background-color: rgb(39 39 42 / 0.7);
+  }
+  100% {
+    background-color: rgb(39 39 42 / 0);
+  }
+  0% {
+    background-color: rgb(39 39 42 / 0.7);
+  }
+}
+
+.is-highlighted {
+  transition: none !important;
+  animation: flash-highlight-light 3s cubic-bezier(0.16, 1, 0.3, 2) forwards !important;
+}
+
+html.dark .is-highlighted {
+  transition: none !important;
+  animation: flash-highlight-dark 3s cubic-bezier(0.16, 1, 0.3, 2) forwards !important;
+}
+
+.photo-glow {
+  background: radial-gradient(ellipse at center, rgba(24, 24, 27, 0.35) 0%, transparent 70%);
+}
+html.dark .photo-glow {
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.28) 0%, transparent 70%);
+}

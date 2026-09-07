@@ -1,0 +1,37 @@
+---
+export interface Props {
+  groupFlag: string;
+}
+
+const { groupFlag } = Astro.props;
+---
+
+<div class="group-cluster-wrapper flex flex-col min-[410px]:flex-row items-start shrink-0">
+  <!-- Tab: Unter 410px oben/horizontal, ab 410px links/vertikal -->
+  <div class="group-tab flex shrink-0 select-none self-start -mb-px min-[410px]:mb-0 min-[410px]:-mr-px z-10">
+    <div class="inline-flex items-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs">
+      <span class="cluster-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap">
+        {groupFlag}
+      </span>
+    </div>
+  </div>
+
+  <!-- Rahmenbox -->
+  <div class="group-cluster relative flex items-start gap-4 sm:gap-6 p-2 sm:p-2.5 rounded-tl-none rounded-tr-xl rounded-br-xl rounded-bl-xl border border-zinc-300/40 dark:border-zinc-700/40 bg-zinc-100/30 dark:bg-zinc-900/30">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .cluster-tab-label {
+    writing-mode: horizontal-tb;
+    transform: rotate(0deg);
+  }
+
+  @media (min-width: 410px) {
+    .cluster-tab-label {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+  }
+</style>

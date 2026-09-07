@@ -1,0 +1,747 @@
+---
+interface Props {
+  id?: string;
+  ariaLabel?: string;
+  cardHeightCollapsed?: string;
+  cardHeightExpanded?: string;
+}
+
+const {
+  id,
+  ariaLabel = "Karussell",
+  cardHeightCollapsed = "20.5rem",
+  cardHeightExpanded = "27.5rem",
+} = Astro.props;
+---
+
+<div
+  class="carousel-root relative flex items-center gap-2 sm:gap-3 md:gap-4 select-none"
+  data-carousel
+  id={id}
+  style={`--card-height-collapsed: ${cardHeightCollapsed}; --card-height-expanded: ${cardHeightExpanded};`}
+>
+  <!-- Linker Navigationsbutton -->
+  <button
+    type="button"
+    class="carousel-prev absolute lg:static left-1 max-[500px]:-left-[10px] lg:left-auto top-1/2 -translate-y-1/2 lg:translate-y-0 z-20 shrink-0 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:border-zinc-500 dark:hover:border-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50 flex items-center justify-center transition-all duration-150 rounded-sm disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-400 shadow-sm"
+    aria-label="Vorherige Box"
+  >
+    <!-- Standard: Flaches < Symbol -->
+    <svg
+      class="carousel-icon-prev w-4 h-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M15 6l-7 6 7 6"></path>
+    </svg>
+
+    <!-- Start-Zustand: Doppelpfeil >> (Sprung ans Ende) -->
+    <svg
+      class="carousel-icon-prev-loop hidden w-4 h-4 fill-zinc-300 dark:fill-zinc-700 text-zinc-400 dark:text-zinc-500"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M13 6l6 6-6 6"></path>
+      <path d="M6 6l6 6-6 6"></path>
+    </svg>
+  </button>
+
+  <!-- Viewport mit overflow-hidden -->
+  <div
+    class="carousel-viewport [container-type:inline-size] overflow-hidden flex-1 min-w-0 pt-7 -mt-7 pb-1 -mb-1 transition-[height] duration-200 ease-out"
+    style="mask-image: linear-gradient(to right, transparent, black var(--mask-left, 2.5rem), black calc(100% - var(--mask-right, 2.5rem)), transparent); -webkit-mask-image: linear-gradient(to right, transparent, black var(--mask-left, 2.5rem), black calc(100% - var(--mask-right, 2.5rem)), transparent);"
+    tabindex="0"
+    role="region"
+    aria-label={ariaLabel}
+  >
+    <!-- Innerer Flexbox-Track mit CSS-Transitions -->
+    <div
+      class="carousel-track relative flex gap-6 transform transition-transform duration-300 ease-in-out items-start"
+    >
+      <slot />
+    </div>
+  </div>
+
+  <!-- Rechter Navigationsbutton -->
+  <button
+    type="button"
+    class="carousel-next absolute lg:static right-1 max-[500px]:-right-[10px] lg:right-auto top-1/2 -translate-y-1/2 lg:translate-y-0 z-20 shrink-0 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:border-zinc-500 dark:hover:border-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50 flex items-center justify-center transition-all duration-150 rounded-sm disabled:opacity-25 disabled:pointer-events-none disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-400 shadow-sm"
+    aria-label="Nächste Box"
+  >
+    <!-- Standard: Flaches > Symbol -->
+    <svg
+      class="carousel-icon-next w-4 h-4"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9 6l7 6-7 6"></path>
+    </svg>
+
+    <!-- End-Zustand: Doppelpfeil << (Rücksprung zum Anfang) -->
+    <svg
+      class="carousel-icon-loop hidden w-4 h-4 fill-zinc-300 dark:fill-zinc-700 text-zinc-400 dark:text-zinc-500"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M11 6l-6 6 6 6"></path>
+      <path d="M18 6l-6 6 6 6"></path>
+    </svg>
+  </button>
+</div>
+
+<style is:global>
+  .carousel-root,
+  .carousel-viewport {
+    --fade-width: 2.5rem;
+  }
+
+  /* Unter 410px liegt der Tab oben: Horizontale Tab-Breite nullen */
+  @media (max-width: 409px) {
+    .carousel-root,
+    .carousel-viewport {
+      --dynamic-tab-width: 0px !important;
+    }
+  }
+
+  /* Mobil (bis einschließlich 700px): 1 Kachel pro Ansicht */
+  @media (max-width: 700px) {
+    .carousel-root,
+    .carousel-viewport {
+      --fade-width: 1rem;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+    }
+    .carousel-track {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+  }
+
+  /* Tablet (ab 701px): 2 Kacheln nebeneinander */
+  @media (min-width: 701px) {
+    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
+      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
+      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
+      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
+    }
+
+    .group-cluster [data-expandable-card],
+    .group-cluster .project-card {
+      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
+      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
+      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
+    }
+  }
+
+
+  .carousel-track {
+    padding-left: var(--fade-width);
+    padding-right: var(--fade-width);
+  }
+  .carousel-track > .group-cluster-wrapper,
+  .carousel-track > .group-cluster {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+  }
+  .carousel-root [data-expandable-card] {
+    transition: height 200ms ease-out;
+  }
+  .carousel-root [data-expandable-card][data-expanded="false"],
+  .carousel-root .project-card:not([data-expandable-card]) {
+    height: var(--card-height-collapsed);
+  }
+  .carousel-root [data-expandable-card][data-expanded="true"] {
+    height: auto;
+    min-height: var(--card-height-collapsed);
+  }
+
+  /* =========================================================================
+     Responsive Spaltenberechnung & Layout-Ausdehnung
+     ========================================================================= */
+
+  /* Mobil (< 640px): 1 Kachel pro Ansicht
+     Exakte Berücksichtigung von Track-Padding (2 * fade), Tab-Breite und Cluster-Padding (1rem) */
+  .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
+    flex: 0 0 calc(100cqi - (2 * var(--fade-width, 1rem)));
+    width: calc(100cqi - (2 * var(--fade-width, 1rem)));
+    max-width: calc(100cqi - (2 * var(--fade-width, 1rem)));
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .group-cluster [data-expandable-card],
+  .group-cluster .project-card {
+    flex: 0 0 calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
+    width: calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
+    max-width: calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /* Tablet (ab 640px statt 768px): 2 Kacheln nebeneinander
+     Verhindert das Aufblähen einer Einzelkachel zwischen 640px und 767px */
+  @media (min-width: 640px) {
+    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
+      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
+      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
+      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
+    }
+
+    .group-cluster [data-expandable-card],
+    .group-cluster .project-card {
+      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
+      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
+      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
+    }
+  }
+
+  /* Desktop (ab 1024px): 3 Kacheln nebeneinander */
+  @media (min-width: 1024px) {
+    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
+      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
+      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
+      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
+    }
+
+    .group-cluster [data-expandable-card],
+    .group-cluster .project-card {
+      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
+      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
+      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
+    }
+  }
+
+  /* Große Bildschirme: Überhang aktivieren */
+  @media (min-width: 1440px) {
+    .carousel-root {
+      margin-inline: calc(-1 * (var(--dynamic-tab-width, 0px) + var(--fade-width, 2.5rem)));
+      width: calc(100% + (2 * (var(--dynamic-tab-width, 0px) + var(--fade-width, 2.5rem))));
+    }
+  }
+</style>
+
+<script>
+  class CarouselController {
+    private root: HTMLElement;
+    private track: HTMLElement;
+    private viewport: HTMLElement;
+    private btnPrev: HTMLButtonElement;
+    private btnNext: HTMLButtonElement;
+    private iconPrev: HTMLElement | null;
+    private iconPrevLoop: HTMLElement | null;
+    private iconNext: HTMLElement | null;
+    private iconLoop: HTMLElement | null;
+    private currentIndex: number = 0;
+    private maxIndex: number = 0;
+    private touchStartX: number = 0;
+    private touchStartY: number = 0;
+
+    constructor(root: HTMLElement) {
+      this.root = root;
+      this.track = root.querySelector('.carousel-track') as HTMLElement;
+      this.viewport = root.querySelector('.carousel-viewport') as HTMLElement;
+      this.btnPrev = root.querySelector('.carousel-prev') as HTMLButtonElement;
+      this.btnNext = root.querySelector('.carousel-next') as HTMLButtonElement;
+      this.iconPrev = root.querySelector('.carousel-icon-prev');
+      this.iconPrevLoop = root.querySelector('.carousel-icon-prev-loop');
+      this.iconNext = root.querySelector('.carousel-icon-next');
+      this.iconLoop = root.querySelector('.carousel-icon-loop');
+
+      if (!this.track || !this.viewport || !this.btnPrev || !this.btnNext) return;
+
+      this.init();
+    }
+
+    private getItems(): HTMLElement[] {
+      return Array.from(
+        this.track.querySelectorAll<HTMLElement>(
+          '.project-card, [data-expandable-card], .carousel-track > *'
+        )
+      ).filter(
+        (el) =>
+          !el.classList.contains('group-cluster') &&
+          !el.classList.contains('group-cluster-wrapper') &&
+          !el.classList.contains('group-tab')
+      );
+    }
+
+    private getVisibleCount(): number {
+      if (window.innerWidth >= 1024) return 3;
+      if (window.innerWidth >= 701) return 2;
+      return 1;
+    }
+
+    private updateDimensions() {
+      const sampleTab = this.track.querySelector('.group-tab') as HTMLElement | null;
+      const tabWidth = sampleTab ? Math.ceil(sampleTab.getBoundingClientRect().width) : 0;
+      this.root.style.setProperty('--dynamic-tab-width', `${tabWidth}px`);
+      this.viewport.style.setProperty('--dynamic-tab-width', `${tabWidth}px`);
+
+      const items = this.getItems();
+      const totalItems = items.length;
+      const visibleCount = this.getVisibleCount();
+      this.maxIndex = Math.max(0, totalItems - visibleCount);
+
+      if (this.currentIndex > this.maxIndex) {
+        this.currentIndex = this.maxIndex;
+      }
+      this.render();
+    }
+
+    private render() {
+      const items = this.getItems();
+      if (items.length === 0) return;
+
+      const targetItem = items[this.currentIndex];
+      const firstItem = items[0];
+
+      const getOffset = (el: HTMLElement) => {
+        let offset = 0;
+        let curr: HTMLElement | null = el;
+        while (curr && curr !== this.track) {
+          offset += curr.offsetLeft;
+          curr = curr.offsetParent as HTMLElement | null;
+        }
+        return offset;
+      };
+
+      // Tab-Versatz für Bildschirme < 700px dynamisch ermitteln
+      let tabOffset = 0;
+      if (window.innerWidth < 700) {
+        const sampleWrapper = this.track.querySelector<HTMLElement>('.group-cluster-wrapper');
+        const sampleTab = sampleWrapper?.querySelector<HTMLElement>('.group-tab');
+        if (sampleWrapper && sampleTab) {
+          // Nur berücksichtigen, wenn der Tab links liegt (nicht oben gestapelt via flex-col < 410px)
+          const isStacked = window.getComputedStyle(sampleWrapper).flexDirection === 'column';
+          if (!isStacked) {
+            const sampleFirstCard = sampleWrapper.querySelector<HTMLElement>(
+              '.project-card, [data-expandable-card]'
+            );
+            if (sampleFirstCard) {
+              tabOffset = getOffset(sampleFirstCard) - sampleWrapper.offsetLeft;
+            } else {
+              tabOffset = sampleTab.offsetWidth;
+            }
+          }
+        }
+      }
+
+      const clusterWrapper = targetItem.closest<HTMLElement>('.group-cluster-wrapper');
+      const cluster = targetItem.closest<HTMLElement>('.group-cluster');
+      let targetOffset: number;
+
+      if (clusterWrapper && cluster) {
+        const clusterItems = Array.from(
+          cluster.querySelectorAll<HTMLElement>('.project-card, [data-expandable-card]')
+        );
+        const isFirstInCluster = clusterItems[0] === targetItem;
+        if (isFirstInCluster) {
+          targetOffset = clusterWrapper.offsetLeft;
+        } else {
+          targetOffset = getOffset(targetItem) - tabOffset;
+        }
+      } else if (cluster) {
+        const clusterItems = Array.from(
+          cluster.querySelectorAll<HTMLElement>('.project-card, [data-expandable-card]')
+        );
+        const isFirstInCluster = clusterItems[0] === targetItem;
+        if (isFirstInCluster) {
+          targetOffset = cluster.offsetLeft;
+        } else {
+          targetOffset = getOffset(targetItem) - tabOffset;
+        }
+      } else {
+        targetOffset = getOffset(targetItem) - tabOffset;
+      }
+
+      const firstWrapper = firstItem.closest<HTMLElement>('.group-cluster-wrapper');
+      const firstCluster = firstItem.closest<HTMLElement>('.group-cluster');
+      const firstOffset = firstWrapper
+        ? firstWrapper.offsetLeft
+        : firstCluster
+        ? firstCluster.offsetLeft
+        : getOffset(firstItem);
+      const rawShift = targetOffset - firstOffset;
+      // Auf Bildschirmen < 640px erlauben wir dem Track, bis zum tatsächlichen Element-Offset zu fahren
+      const isMobile = window.innerWidth < 700;
+      const maxShift = Math.max(0, this.track.scrollWidth - this.viewport.clientWidth);
+      const shift = isMobile 
+        ? Math.max(0, rawShift) 
+        : Math.min(Math.max(0, rawShift), maxShift);
+
+      this.track.style.transform = `translateX(-${shift}px)`;
+
+      // Dynamische CSS-Masken-Variablen für weiches Ausfaden
+      const maskLeft = 'var(--fade-width, 2.5rem)';
+      const maskRight = shift >= maxShift ? '0px' : 'var(--fade-width, 2.5rem)';
+      this.viewport.style.setProperty('--mask-left', maskLeft);
+      this.viewport.style.setProperty('--mask-right', maskRight);
+
+      // Prev Button Zustand (Bidirektionaler Loop)
+      if (this.maxIndex === 0) {
+        this.btnPrev.disabled = true;
+        this.btnPrev.setAttribute('aria-disabled', 'true');
+        this.iconPrev?.classList.remove('hidden');
+        this.iconPrevLoop?.classList.add('hidden');
+        // Standardzustand
+        this.btnPrev.classList.remove('bg-zinc-300', 'dark:bg-zinc-700', 'border-white', 'dark:border-zinc-900');
+        this.btnPrev.classList.add('bg-white', 'dark:bg-zinc-900', 'border-zinc-300', 'dark:border-zinc-700');
+        this.btnPrev.setAttribute('aria-label', 'Keine weiteren Boxen');
+      } else if (this.currentIndex === 0) {
+        this.btnPrev.disabled = false;
+        this.btnPrev.setAttribute('aria-disabled', 'false');
+        this.iconPrev?.classList.add('hidden');
+        this.iconPrevLoop?.classList.remove('hidden');
+        // Invertiert: Rahmenfarbe als Hintergrund, Hintergrund als Rahmen
+        this.btnPrev.classList.remove('bg-white', 'dark:bg-zinc-900', 'border-zinc-300', 'dark:border-zinc-700');
+        this.btnPrev.classList.add('bg-zinc-300', 'dark:bg-zinc-700', 'border-white', 'dark:border-zinc-900');
+        this.btnPrev.setAttribute('aria-label', 'Zum Ende springen');
+      } else {
+        this.btnPrev.disabled = false;
+        this.btnPrev.setAttribute('aria-disabled', 'false');
+        this.iconPrev?.classList.remove('hidden');
+        this.iconPrevLoop?.classList.add('hidden');
+        // Standardzustand
+        this.btnPrev.classList.remove('bg-zinc-300', 'dark:bg-zinc-700', 'border-white', 'dark:border-zinc-900');
+        this.btnPrev.classList.add('bg-white', 'dark:bg-zinc-900', 'border-zinc-300', 'dark:border-zinc-700');
+        this.btnPrev.setAttribute('aria-label', 'Vorherige Box');
+      }
+
+      // Next Button & Loop Zustand
+      const isAtEnd = this.currentIndex >= this.maxIndex;
+      if (this.maxIndex === 0) {
+        this.btnNext.disabled = true;
+        this.btnNext.setAttribute('aria-disabled', 'true');
+        this.iconNext?.classList.remove('hidden');
+        this.iconLoop?.classList.add('hidden');
+        // Standardzustand
+        this.btnNext.classList.remove('bg-zinc-300', 'dark:bg-zinc-700', 'border-white', 'dark:border-zinc-900');
+        this.btnNext.classList.add('bg-white', 'dark:bg-zinc-900', 'border-zinc-300', 'dark:border-zinc-700');
+        this.btnNext.setAttribute('aria-label', 'Keine weiteren Boxen');
+      } else if (isAtEnd) {
+        this.btnNext.disabled = false;
+        this.btnNext.setAttribute('aria-disabled', 'false');
+        this.iconNext?.classList.add('hidden');
+        this.iconLoop?.classList.remove('hidden');
+        // Invertiert: Rahmenfarbe als Hintergrund, Hintergrund als Rahmen
+        this.btnNext.classList.remove('bg-white', 'dark:bg-zinc-900', 'border-zinc-300', 'dark:border-zinc-700');
+        this.btnNext.classList.add('bg-zinc-300', 'dark:bg-zinc-700', 'border-white', 'dark:border-zinc-900');
+        this.btnNext.setAttribute('aria-label', 'Zum Anfang zurückspringen');
+      } else {
+        this.btnNext.disabled = false;
+        this.btnNext.setAttribute('aria-disabled', 'false');
+        this.iconNext?.classList.remove('hidden');
+        this.iconLoop?.classList.add('hidden');
+        // Standardzustand
+        this.btnNext.classList.remove('bg-zinc-300', 'dark:bg-zinc-700', 'border-white', 'dark:border-zinc-900');
+        this.btnNext.classList.add('bg-white', 'dark:bg-zinc-900', 'border-zinc-300', 'dark:border-zinc-700');
+        this.btnNext.setAttribute('aria-label', 'Nächste Box');
+      }
+
+      this.root.dataset.currentIndex = String(this.currentIndex);
+      this.root.dataset.maxIndex = String(this.maxIndex);
+      this.updateViewportHeight();
+    }
+
+    private updateViewportHeight() {
+      const items = this.getItems();
+      if (items.length === 0) return;
+
+      const visibleCount = this.getVisibleCount();
+      const anyExpanded = items.some(
+        (el) => el.getAttribute('data-expanded') === 'true'
+      );
+
+      // Viewport-Padding (pt-7 pb-1) dynamisch aus dem berechneten Style lesen
+      const vpStyle = window.getComputedStyle(this.viewport);
+      const padTop = parseFloat(vpStyle.paddingTop) || 0;
+      const padBottom = parseFloat(vpStyle.paddingBottom) || 0;
+      const extraPad = padTop + padBottom;
+
+      // 1. Fall: Alle Kacheln eingeklappt -> Standardhöhe nutzen
+      if (!anyExpanded) {
+        const currentItem = items[this.currentIndex];
+        const clusterWrapper = currentItem?.closest<HTMLElement>('.group-cluster-wrapper');
+        let extraTabHeight = 0;
+
+        if (clusterWrapper && window.getComputedStyle(clusterWrapper).flexDirection === 'column') {
+          const tabEl = clusterWrapper.querySelector<HTMLElement>('.group-tab');
+          if (tabEl) {
+            extraTabHeight = tabEl.offsetHeight;
+          }
+        }
+
+        if (extraTabHeight > 0) {
+          this.viewport.style.height = `calc(var(--card-height-collapsed) + 3.5rem + ${extraTabHeight}px)`;
+        } else {
+          this.viewport.style.height = `calc(var(--card-height-collapsed) + 3.5rem)`;
+        }
+        return;
+      }
+
+      // 2. Fall: Mindestens eine Kachel geöffnet -> Reale Cluster-Höhe im DOM messen
+      let maxHeight = 0;
+
+      items.forEach((item, idx) => {
+        const isVisible = idx >= this.currentIndex && idx < this.currentIndex + visibleCount;
+        const isExpanded = item.getAttribute('data-expanded') === 'true';
+
+        if (isVisible || isExpanded) {
+          const clusterWrapper = item.closest<HTMLElement>('.group-cluster-wrapper');
+          const targetEl = clusterWrapper || item;
+          // offsetHeight liefert die exakte Pixelhöhe inklusive Tab, Kachel-Content und Padding
+          if (targetEl.offsetHeight > maxHeight) {
+            maxHeight = targetEl.offsetHeight;
+          }
+        }
+      });
+
+      if (maxHeight > 0) {
+        // Exakte Clusterhöhe + Viewport-Padding + 4px Puffer
+        this.viewport.style.height = `${Math.ceil(maxHeight + extraPad + 4)}px`;
+      }
+    }
+
+    private goNext() {
+      if (this.maxIndex === 0) return;
+      if (this.currentIndex >= this.maxIndex) {
+        this.currentIndex = 0;
+      } else {
+        this.currentIndex++;
+      }
+      this.render();
+    }
+
+    private goPrev() {
+      if (this.maxIndex === 0) return;
+      if (this.currentIndex === 0) {
+        this.currentIndex = this.maxIndex;
+      } else {
+        this.currentIndex--;
+      }
+      this.render();
+    }
+
+    // =========================================================================
+    // Architektur-Vorbereitung: Deep-Linking via URL-Hash (#box-id)
+    // =========================================================================
+    // Ermöglicht zukünftige direkte Hash-Sprünge zu Einzelboxen:
+    // 1. Auslesen von window.location.hash beim Initialisieren & bei hashchange
+    // 2. Zuordnung des Hash-Wertes zur passenden Box-ID (data-project-id oder id)
+    // 3. Verschiebung des Karussell-Index auf die Zielbox (unter Berücksichtigung von maxIndex)
+    //
+    // private scrollToHash(hash?: string) {
+    //   const rawHash = hash || window.location.hash;
+    //   if (!rawHash) return;
+    //   const targetId = rawHash.replace(/^#/, '');
+    //   const items = Array.from(this.track.children) as HTMLElement[];
+    //   const targetIndex = items.findIndex((item) => {
+    //     if (item.id === targetId || item.getAttribute('data-project-id') === targetId) return true;
+    //     const inner = item.querySelector(`[data-project-id="${targetId}"], #${CSS.escape(targetId)}`);
+    //     return inner !== null;
+    //   });
+    //   if (targetIndex !== -1) {
+    //     this.currentIndex = Math.min(targetIndex, this.maxIndex);
+    //     this.render();
+    //   }
+    // }
+    // =========================================================================
+
+    private init() {
+      this.updateDimensions();
+      this.updateViewportHeight();
+
+      const observer = new MutationObserver((mutations) => {
+        for (const m of mutations) {
+          if (m.type === 'attributes' && m.attributeName === 'data-expanded') {
+            this.updateViewportHeight();
+            break;
+          }
+        }
+      });
+      observer.observe(this.track, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ['data-expanded'],
+      });
+
+      this.btnNext.addEventListener('click', () => this.goNext());
+      this.btnPrev.addEventListener('click', () => this.goPrev());
+
+      // Horizontales Weiterschalten via Mausrad mit Momentum-Puffer an den Rändern
+      // Horizontales Weiterschalten via Mausrad mit Rasten-Puffer an den Anschlägen
+      let lastWheelTime = 0;
+      let edgeTicks = 0;
+      let lastEdgeEventTime = 0;
+      const REQUIRED_EDGE_TICKS = 1; // Erforderliche zusätzliche Mausrad-Rasten am Anschlag
+      const TICK_COOLDOWN = 100;     // Mindestabstand in ms zwischen zwei gezählten Rasten
+
+      this.viewport.addEventListener(
+        'wheel',
+        (e: WheelEvent) => {
+          if (Math.abs(e.deltaY) < 1) return;
+
+          const now = Date.now();
+
+          // Zähler zurücksetzen, wenn zwischen den Scroll-Aktionen pausiert wurde
+          if (now - lastEdgeEventTime > 500) {
+            edgeTicks = 0;
+          }
+          lastEdgeEventTime = now;
+
+          if (e.deltaY > 0) {
+            // Vorwärts scrollen
+            if (this.currentIndex < this.maxIndex) {
+              e.preventDefault();
+              edgeTicks = 0;
+              if (now - lastWheelTime < 250) return;
+              lastWheelTime = now;
+              this.currentIndex++;
+              this.render();
+            } else {
+              // Anschlag am Ende erreicht
+              if (edgeTicks < REQUIRED_EDGE_TICKS) {
+                e.preventDefault();
+                if (now - lastWheelTime >= TICK_COOLDOWN) {
+                  lastWheelTime = now;
+                  edgeTicks++;
+                }
+              }
+              // Sobald REQUIRED_EDGE_TICKS erreicht sind: kein preventDefault() -> normales Seitenscrollen
+            }
+          } else if (e.deltaY < 0) {
+            // Rückwärts scrollen
+            if (this.currentIndex > 0) {
+              e.preventDefault();
+              edgeTicks = 0;
+              if (now - lastWheelTime < 250) return;
+              lastWheelTime = now;
+              this.currentIndex--;
+              this.render();
+            } else {
+              // Anschlag am Anfang erreicht
+              if (edgeTicks < REQUIRED_EDGE_TICKS) {
+                e.preventDefault();
+                if (now - lastWheelTime >= TICK_COOLDOWN) {
+                  lastWheelTime = now;
+                  edgeTicks++;
+                }
+              }
+              // Sobald REQUIRED_EDGE_TICKS erreicht sind: kein preventDefault() -> normales Seitenscrollen
+            }
+          }
+        },
+        { passive: false }
+      );
+
+      // Tastatur-Navigation
+      this.root.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          this.goNext();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          this.goPrev();
+        }
+      });
+
+      // Touch-Unterstützung (Swipe)
+      this.viewport.addEventListener(
+        'touchstart',
+        (e: TouchEvent) => {
+          this.touchStartX = e.changedTouches[0].screenX;
+          this.touchStartY = e.changedTouches[0].screenY;
+        },
+        { passive: true }
+      );
+
+      this.viewport.addEventListener(
+        'touchend',
+        (e: TouchEvent) => {
+          const touchEndX = e.changedTouches[0].screenX;
+          const touchEndY = e.changedTouches[0].screenY;
+          const diffX = touchEndX - this.touchStartX;
+          const diffY = touchEndY - this.touchStartY;
+
+          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+            this.root.setAttribute('data-is-swiping', 'true');
+            window.setTimeout(() => {
+              this.root.removeAttribute('data-is-swiping');
+            }, 300);
+
+            if (diffX < 0) {
+              this.goNext();
+            } else {
+              this.goPrev();
+            }
+          }
+        },
+        { passive: true }
+      );
+
+      // Window resize: Synchron mit requestAnimationFrame und ohne Transition-Glitch
+      let resizeFrame: number;
+      let resizeTransitionTimer: number;
+
+      window.addEventListener('resize', () => {
+        // 1. CSS-Transition während des Ziehens sofort abschalten
+        this.track.style.transition = 'none';
+
+        // 2. Berechnung im nächsten Animations-Frame ausführen
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(() => {
+          this.updateDimensions();
+        });
+
+        // 3. Nach Abschluss des Resizes die CSS-Transition wieder freigeben
+        clearTimeout(resizeTransitionTimer);
+        resizeTransitionTimer = window.setTimeout(() => {
+          this.track.style.transition = '';
+        }, 150);
+      });
+
+      window.addEventListener('load', () => {
+        this.updateDimensions();
+      });
+    }
+  }
+
+  function initCarousels() {
+    const carousels = document.querySelectorAll<HTMLElement>('[data-carousel]');
+    carousels.forEach((el) => {
+      if (!el.dataset.initialized) {
+        new CarouselController(el);
+        el.dataset.initialized = 'true';
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousels);
+  } else {
+    initCarousels();
+  }
+
+  document.addEventListener('astro:page-load', initCarousels);
+</script>

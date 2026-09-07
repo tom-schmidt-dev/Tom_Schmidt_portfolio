@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /impressum
+Disallow: /datenschutz
+Disallow: /api/
+Disallow: /foto.jpg
+
+Sitemap: https://tom-schmidt.dev/sitemap-index.xml
