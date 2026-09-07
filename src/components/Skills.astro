@@ -1,7 +1,17 @@
 ---
 import Carousel from './Carousel.astro';
 import CarouselCluster from './CarouselCluster.astro';
-import skillData from '../data/skills.json';
+import skillDataRaw from '../data/skills.json';
+
+export interface SkillItem {
+  index: string;
+  title: string;
+  tabs?: string[];
+  description: string;
+  skills: string[];
+}
+
+const skillData = skillDataRaw as SkillItem[];
 
 const clusters = [
   {

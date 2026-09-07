@@ -2,6 +2,7 @@
   {
     "id": "speech-to-speech-rag-simulation",
     "title": "RAG-gestütztes Sprachdialogsystem zur Simulation historischer Philosophen-Personas",
+    "tabs": ["RAG & LLM"],
     "period": "05.2026",
     "description": {
         "category": "Aufgabenstellung",
@@ -74,6 +75,7 @@
   {
     "id": "rag-text-party-analysis",
     "title": "RAG-gestützter Chatbot zur Informationsbildung politischer Themen",
+    "tabs": ["RAG & LLM"],
     "period": "10.2024 – 01.2025",
     "description": [
       {
@@ -135,6 +137,7 @@
   {
     "id": "patient-ai-mhealth",
     "title": "Web- und Mobile-App zur Wartezeitreduzierung in Arztpraxen mittels ML",
+    "tabs": ["Machine Learning"],
     "period": "11.2023 – 01.2024",
     "category": "Gruppe",
     "privat": false,
@@ -201,6 +204,7 @@
   {
     "id": "homelab-infrastructure",
     "title": "Homelab-Infrastruktur & Cloud-Services mit Proxmox und Docker",
+    "tabs": ["Infrastruktur & Backend"],
     "period": "07.2025 – heute",
     "description": "Dedizierte Server- und Virtualisierungsumgebung für das selbstgehostete Betreiben von Diensten und Webprojekten. Realisiert auf Proxmox VE unter Debian mit LXC-Containern und Docker, inklusive DNS-Sinkhole (AdGuard Home), privater Nextcloud-Instanz und verschlüsseltem Fernzugriff über Cloudflare Zero Trust.",
     "category": "Solo",
@@ -218,6 +222,7 @@
   {
     "id": "agentic-ai-local-experiments",
     "title": "Diverse Experimente mit (lokalen) LLMs / SLMs, KI-Agenten & Automatisierung",
+    "tabs": ["Machine Learning", "RAG & LLM"],
     "period": "2024 – heute",
     "description": "Systematische Entwicklung und Erprobung agentischer KI-Systeme und lokaler Sprachmodelle. Beinhaltet die Implementierung von Tool-Calling-Mechanismen, Workflow-Graphen mit LangGraph, strukturierte Agent-Loops (OpenCode, Claude Code) sowie Finetuning und Quantisierung kompakter Open-Source-Modelle.",
     "category": "Solo",

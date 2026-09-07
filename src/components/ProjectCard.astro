@@ -8,27 +8,38 @@ export type HighlightSection = {
 
 export type ContentBlock = string | HighlightSection;
 
+export interface ProjectData {
+  id: string;
+  title: string;
+  tabs?: string[];
+  description?: ContentBlock | ContentBlock[];
+  category: string;
+  period?: string;
+  privat?: boolean;
+  uni?: boolean;
+  isPlaceholder?: boolean;
+  tags?: string[];
+  githubUrl?: string;
+  sourceUrl?: string;
+  highlights?: ContentBlock[];
+}
+
 export interface Props {
-  project: {
-    id: string;
-    title: string;
-    description?: ContentBlock | ContentBlock[];
-    category: string;
-    period?: string;
-    privat?: boolean;
-    uni?: boolean;
-    isPlaceholder?: boolean;
-    tags?: string[];
-    githubUrl?: string;
-    sourceUrl?: string;
-    highlights?: ContentBlock[];
-  };
+  project: ProjectData;
   groupFlag?: string;
 }
 
 const { project, groupFlag } = Astro.props;
 const isPlaceholder = project.isPlaceholder || project.title === '...';
 const sourceUrl = project.sourceUrl || project.githubUrl;
+
+const tabs: string[] = project.tabs && project.tabs.length > 0
+  ? project.tabs
+  : groupFlag
+  ? [groupFlag]
+  : isPlaceholder
+  ? ["In Planung"]
+  : [project.category];
 
 function isSection(item: ContentBlock): item is HighlightSection {
   return typeof item === 'object' && item !== null && 'category' in item && 'items' in item;
