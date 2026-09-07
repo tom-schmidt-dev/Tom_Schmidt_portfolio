@@ -66,7 +66,7 @@ const descriptionBlocks: ContentBlock[] = project.description
 
 {isPlaceholder ? (
   <article 
-    class="project-card group relative flex flex-col min-[410px]:flex-row items-stretch border-0 p-0 opacity-50 select-none transition-[height,border-color] duration-200 ease-out w-[260px] max-w-[calc(100cqi-1rem)] min-w-0 sm:min-w-[260px] shrink-0"
+    class="project-card group relative flex flex-col min-[410px]:flex-row items-stretch border-0 p-0 opacity-50 select-none transition-[height,border-color] duration-200 ease-out min-w-0 shrink-0"
     data-multi-tab={tabs.length > 1 ? "true" : "false"}
   >
     <!-- Tabs: Unter 410px oben/horizontal gestapelt, ab 410px links/vertikal -->
@@ -79,7 +79,7 @@ const descriptionBlocks: ContentBlock[] = project.description
         const abbr = getTabAbbr(tab);
         return (
           <div
-            class="card-tab group-tab flex-initial min-[410px]:flex-1 min-w-0 min-[410px]:min-h-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
+            class="card-tab flex-initial min-[410px]:flex-1 min-w-0 min-[410px]:min-h-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
             data-card-tab
           >
             <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
@@ -149,7 +149,7 @@ const descriptionBlocks: ContentBlock[] = project.description
   </article>
 ) : (
   <article
-    class="project-card group relative flex flex-col min-[410px]:flex-row items-stretch shrink-0 cursor-pointer select-text w-[260px] max-w-[calc(100cqi-1rem)] min-w-0 sm:min-w-[260px]"
+    class="project-card group relative flex flex-col min-[410px]:flex-row items-stretch shrink-0 cursor-pointer select-text min-w-0"
     data-expandable-card
     data-expanded="false"
     data-project-id={project.id}
@@ -168,7 +168,7 @@ const descriptionBlocks: ContentBlock[] = project.description
         const abbr = getTabAbbr(tab);
         return (
           <div
-            class="card-tab group-tab flex-initial min-[410px]:flex-1 min-w-0 min-[410px]:min-h-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
+            class="card-tab flex-initial min-[410px]:flex-1 min-w-0 min-[410px]:min-h-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
             data-card-tab
           >
             <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
