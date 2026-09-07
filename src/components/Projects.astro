@@ -1,25 +1,14 @@
 ---
 import Carousel from './Carousel.astro';
-import CarouselCluster from './CarouselCluster.astro';
 import ProjectCard from './ProjectCard.astro';
 import projectsData from '../data/projects.json';
 
-const projectClusters = [
-  {
-    groupFlag: "RAG & LLM",
-    projects: [projectsData[0], projectsData[1]],
-    hasPlaceholder: false,
-  },
-  {
-    groupFlag: "Machine Learning",
-    projects: [projectsData[2], projectsData[4]],
-    hasPlaceholder: false,
-  },
-  {
-    groupFlag: "Infrastruktur",
-    projects: [projectsData[3]],
-    hasPlaceholder: true,
-  },
+const projects = [
+  projectsData[0],
+  projectsData[1],
+  projectsData[2],
+  projectsData[4],
+  projectsData[3],
 ];
 ---
 
@@ -51,29 +40,18 @@ const projectClusters = [
     <!-- Project Cards Carousel -->
     <div class="carousel-zoom-wrapper">
       <Carousel id="carousel-projects" ariaLabel="Künstliche Intelligenz und RAG-Systeme" cardHeightCollapsed="23.5rem">
-
-        {projectClusters.map((cluster) => (
-          
-          <CarouselCluster groupFlag={cluster.groupFlag}>
-            {cluster.projects.map((project) => (
-              <ProjectCard project={project} />
-            ))}
-
-            {cluster.hasPlaceholder && (
-              <ProjectCard project={{
-                id: "placeholder-projects",
-                title: "...",
-                category: "Weitere folgen...",
-                tabs: ["In Planung"],
-                isPlaceholder: true,
-                tags: []
-              }} />
-            )}
-
-          </CarouselCluster>
-
+        {projects.map((project) => (
+          <ProjectCard project={project} />
         ))}
-        
+
+        <ProjectCard project={{
+          id: "placeholder-projects",
+          title: "...",
+          category: "Weitere folgen...",
+          tabs: ["In Planung"],
+          isPlaceholder: true,
+          tags: []
+        }} />
       </Carousel>
     </div>
 
