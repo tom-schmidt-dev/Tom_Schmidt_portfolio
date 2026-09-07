@@ -1,6 +1,7 @@
 ---
 import Carousel from './Carousel.astro';
 import skillDataRaw from '../data/skills.json';
+import { getTabAbbr } from '../utils/tabs';
 
 export interface SkillItem {
   index: string;
@@ -11,18 +12,6 @@ export interface SkillItem {
 }
 
 const skillData = skillDataRaw as SkillItem[];
-
-const TAB_ABBREVIATIONS: Record<string, string> = {
-  'Entwicklung & Architektur': 'Dev & Arch',
-  'Künstliche Intelligenz': 'KI',
-  'Machine Learning': 'ML',
-  'Infrastruktur & Backend': 'Infra & BE',
-  'Software-Architektur': 'Architektur',
-};
-
-function getTabAbbr(label: string): string {
-  return TAB_ABBREVIATIONS[label] || label;
-}
 ---
 
 <section id="skills" class="scroll-mt-24 py-16 md:py-24 border-b border-zinc-200 dark:border-zinc-800 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">
@@ -45,7 +34,7 @@ function getTabAbbr(label: string): string {
     <div class="carousel-zoom-wrapper">
       <Carousel id="carousel-skills" ariaLabel="Technische Kenntnisse" cardHeightCollapsed="23.5rem">
         {skillData.map((group) => {
-          const cardTabs = group.tabs && group.tabs.length > 0 ? group.tabs : ["Kenntnisse"];
+          const cardTabs = group.tabs ?? [];
           return (
             <div
               class="skill-card group relative flex flex-col min-[410px]:flex-row items-stretch shrink-0 cursor-pointer select-text min-w-0"

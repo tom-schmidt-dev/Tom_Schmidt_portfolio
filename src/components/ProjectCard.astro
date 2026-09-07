@@ -1,5 +1,6 @@
 ---
 import { Github } from 'lucide-astro';
+import { getTabAbbr } from '../utils/tabs';
 
 export type HighlightSection = {
   category: string;
@@ -33,25 +34,7 @@ const { project, groupFlag } = Astro.props;
 const isPlaceholder = project.isPlaceholder || project.title === '...';
 const sourceUrl = project.sourceUrl || project.githubUrl;
 
-const tabs: string[] = project.tabs && project.tabs.length > 0
-  ? project.tabs
-  : groupFlag
-  ? [groupFlag]
-  : isPlaceholder
-  ? ["In Planung"]
-  : [project.category];
-
-const TAB_ABBREVIATIONS: Record<string, string> = {
-  'Entwicklung & Architektur': 'Dev & Arch',
-  'Künstliche Intelligenz': 'KI',
-  'Machine Learning': 'ML',
-  'Infrastruktur & Backend': 'Infra & BE',
-  'Software-Architektur': 'Architektur',
-};
-
-function getTabAbbr(label: string): string {
-  return TAB_ABBREVIATIONS[label] || label;
-}
+const tabs: string[] = project.tabs ?? [];
 
 function isSection(item: ContentBlock): item is HighlightSection {
   return typeof item === 'object' && item !== null && 'category' in item && 'items' in item;
