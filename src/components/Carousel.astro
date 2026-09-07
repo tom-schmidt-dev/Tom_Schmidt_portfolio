@@ -123,8 +123,8 @@ const {
     }
   }
 
-  /* Mobil (bis einschließlich 700px): 1 Kachel pro Ansicht */
-  @media (max-width: 700px) {
+  /* Mobil (< 640px): 1 Kachel pro Ansicht */
+  @media (max-width: 639px) {
     .carousel-root,
     .carousel-viewport {
       --fade-width: 1rem;
@@ -137,41 +137,49 @@ const {
     }
   }
 
-  /* Tablet (ab 701px): 2 Kacheln nebeneinander */
-  @media (min-width: 701px) {
-    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-    }
-
-    .group-cluster [data-expandable-card],
-    .group-cluster .project-card {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-    }
-  }
-
-
   .carousel-track {
     padding-left: var(--fade-width);
     padding-right: var(--fade-width);
   }
-  .carousel-track > .group-cluster-wrapper,
-  .carousel-track > .group-cluster {
-    flex: 0 0 auto;
-    width: auto;
-    max-width: none;
-  }
+
   .carousel-root [data-expandable-card] {
     transition: height 200ms ease-out;
   }
-  .carousel-root [data-expandable-card][data-expanded="false"],
-  .carousel-root .project-card:not([data-expandable-card]) {
-    height: var(--card-height-collapsed);
+
+  /* Unter 410px: Tabs liegen oben, Kachel-Inhalt behält Mindesthöhe */
+  @media (max-width: 409px) {
+    .carousel-root [data-expandable-card][data-expanded="false"],
+    .carousel-root .project-card:not([data-expandable-card]),
+    .carousel-root .skill-card:not([data-expandable-card]) {
+      height: auto;
+    }
+    .carousel-root [data-expandable-card][data-expanded="false"] .card-content,
+    .carousel-root .project-card:not([data-expandable-card]) .card-content,
+    .carousel-root .skill-card:not([data-expandable-card]) .card-content {
+      height: var(--card-height-collapsed);
+    }
   }
+
+  /* Ab 410px: Kachelhöhe ist die feste Obergrenze */
+  @media (min-width: 410px) {
+    .carousel-root [data-expandable-card][data-expanded="false"],
+    .carousel-root .project-card:not([data-expandable-card]),
+    .carousel-root .skill-card:not([data-expandable-card]) {
+      height: var(--card-height-collapsed);
+    }
+    .carousel-root [data-expandable-card] .card-content,
+    .carousel-root .project-card .card-content,
+    .carousel-root .skill-card .card-content {
+      height: 100%;
+    }
+  }
+
+  /* Expandierter Zustand: Volle Höhe */
   .carousel-root [data-expandable-card][data-expanded="true"] {
+    height: auto;
+    min-height: var(--card-height-collapsed);
+  }
+  .carousel-root [data-expandable-card][data-expanded="true"] .card-content {
     height: auto;
     min-height: var(--card-height-collapsed);
   }
@@ -180,9 +188,8 @@ const {
      Responsive Spaltenberechnung & Layout-Ausdehnung
      ========================================================================= */
 
-  /* Mobil (< 640px): 1 Kachel pro Ansicht
-     Exakte Berücksichtigung von Track-Padding (2 * fade), Tab-Breite und Cluster-Padding (1rem) */
-  .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
+  /* Mobil (< 640px): 1 Kachel pro Ansicht */
+  .carousel-track > * {
     flex: 0 0 calc(100cqi - (2 * var(--fade-width, 1rem)));
     width: calc(100cqi - (2 * var(--fade-width, 1rem)));
     max-width: calc(100cqi - (2 * var(--fade-width, 1rem)));
@@ -190,45 +197,21 @@ const {
     box-sizing: border-box;
   }
 
-  .group-cluster [data-expandable-card],
-  .group-cluster .project-card {
-    flex: 0 0 calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
-    width: calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
-    max-width: calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
-    min-width: 0;
-    box-sizing: border-box;
-  }
-
-  /* Tablet (ab 640px statt 768px): 2 Kacheln nebeneinander
-     Verhindert das Aufblähen einer Einzelkachel zwischen 640px und 767px */
+  /* Tablet (ab 640px): 2 Kacheln nebeneinander */
   @media (min-width: 640px) {
-    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
+    .carousel-track > * {
       flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
       width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
       max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-    }
-
-    .group-cluster [data-expandable-card],
-    .group-cluster .project-card {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
     }
   }
 
   /* Desktop (ab 1024px): 3 Kacheln nebeneinander */
   @media (min-width: 1024px) {
-    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
+    .carousel-track > * {
       flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
       width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
       max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
-    }
-
-    .group-cluster [data-expandable-card],
-    .group-cluster .project-card {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
     }
   }
 
@@ -274,27 +257,20 @@ const {
     }
 
     private getItems(): HTMLElement[] {
-      return Array.from(
-        this.track.querySelectorAll<HTMLElement>(
-          '.project-card, [data-expandable-card], .carousel-track > *'
-        )
-      ).filter(
-        (el) =>
-          !el.classList.contains('group-cluster') &&
-          !el.classList.contains('group-cluster-wrapper') &&
-          !el.classList.contains('group-tab')
+      return Array.from(this.track.children).filter(
+        (el): el is HTMLElement => el instanceof HTMLElement
       );
     }
 
     private getVisibleCount(): number {
       if (window.innerWidth >= 1024) return 3;
-      if (window.innerWidth >= 701) return 2;
+      if (window.innerWidth >= 640) return 2;
       return 1;
     }
 
     private updateDimensions() {
-      const sampleTab = this.track.querySelector('.group-tab') as HTMLElement | null;
-      const tabWidth = sampleTab ? Math.ceil(sampleTab.getBoundingClientRect().width) : 0;
+      const sampleTab = this.track.querySelector<HTMLElement>('[data-card-tab], .card-tab');
+      const tabWidth = sampleTab && window.innerWidth >= 410 ? Math.ceil(sampleTab.getBoundingClientRect().width) : 0;
       this.root.style.setProperty('--dynamic-tab-width', `${tabWidth}px`);
       this.viewport.style.setProperty('--dynamic-tab-width', `${tabWidth}px`);
 
@@ -316,75 +292,9 @@ const {
       const targetItem = items[this.currentIndex];
       const firstItem = items[0];
 
-      const getOffset = (el: HTMLElement) => {
-        let offset = 0;
-        let curr: HTMLElement | null = el;
-        while (curr && curr !== this.track) {
-          offset += curr.offsetLeft;
-          curr = curr.offsetParent as HTMLElement | null;
-        }
-        return offset;
-      };
-
-      // Tab-Versatz für Bildschirme < 700px dynamisch ermitteln
-      let tabOffset = 0;
-      if (window.innerWidth < 700) {
-        const sampleWrapper = this.track.querySelector<HTMLElement>('.group-cluster-wrapper');
-        const sampleTab = sampleWrapper?.querySelector<HTMLElement>('.group-tab');
-        if (sampleWrapper && sampleTab) {
-          // Nur berücksichtigen, wenn der Tab links liegt (nicht oben gestapelt via flex-col < 410px)
-          const isStacked = window.getComputedStyle(sampleWrapper).flexDirection === 'column';
-          if (!isStacked) {
-            const sampleFirstCard = sampleWrapper.querySelector<HTMLElement>(
-              '.project-card, [data-expandable-card]'
-            );
-            if (sampleFirstCard) {
-              tabOffset = getOffset(sampleFirstCard) - sampleWrapper.offsetLeft;
-            } else {
-              tabOffset = sampleTab.offsetWidth;
-            }
-          }
-        }
-      }
-
-      const clusterWrapper = targetItem.closest<HTMLElement>('.group-cluster-wrapper');
-      const cluster = targetItem.closest<HTMLElement>('.group-cluster');
-      let targetOffset: number;
-
-      if (clusterWrapper && cluster) {
-        const clusterItems = Array.from(
-          cluster.querySelectorAll<HTMLElement>('.project-card, [data-expandable-card]')
-        );
-        const isFirstInCluster = clusterItems[0] === targetItem;
-        if (isFirstInCluster) {
-          targetOffset = clusterWrapper.offsetLeft;
-        } else {
-          targetOffset = getOffset(targetItem) - tabOffset;
-        }
-      } else if (cluster) {
-        const clusterItems = Array.from(
-          cluster.querySelectorAll<HTMLElement>('.project-card, [data-expandable-card]')
-        );
-        const isFirstInCluster = clusterItems[0] === targetItem;
-        if (isFirstInCluster) {
-          targetOffset = cluster.offsetLeft;
-        } else {
-          targetOffset = getOffset(targetItem) - tabOffset;
-        }
-      } else {
-        targetOffset = getOffset(targetItem) - tabOffset;
-      }
-
-      const firstWrapper = firstItem.closest<HTMLElement>('.group-cluster-wrapper');
-      const firstCluster = firstItem.closest<HTMLElement>('.group-cluster');
-      const firstOffset = firstWrapper
-        ? firstWrapper.offsetLeft
-        : firstCluster
-        ? firstCluster.offsetLeft
-        : getOffset(firstItem);
-      const rawShift = targetOffset - firstOffset;
+      const rawShift = targetItem.offsetLeft - firstItem.offsetLeft;
       // Auf Bildschirmen < 640px erlauben wir dem Track, bis zum tatsächlichen Element-Offset zu fahren
-      const isMobile = window.innerWidth < 700;
+      const isMobile = window.innerWidth < 640;
       const maxShift = Math.max(0, this.track.scrollWidth - this.viewport.clientWidth);
       const shift = isMobile 
         ? Math.max(0, rawShift) 
@@ -481,12 +391,11 @@ const {
 
       // 1. Fall: Alle Kacheln eingeklappt -> Standardhöhe nutzen
       if (!anyExpanded) {
-        const currentItem = items[this.currentIndex];
-        const clusterWrapper = currentItem?.closest<HTMLElement>('.group-cluster-wrapper');
+        const currentItem = items[this.currentIndex] || items[0];
         let extraTabHeight = 0;
 
-        if (clusterWrapper && window.getComputedStyle(clusterWrapper).flexDirection === 'column') {
-          const tabEl = clusterWrapper.querySelector<HTMLElement>('.group-tab');
+        if (window.innerWidth < 410 && currentItem) {
+          const tabEl = currentItem.querySelector<HTMLElement>('[data-card-tabs], .card-tabs');
           if (tabEl) {
             extraTabHeight = tabEl.offsetHeight;
           }
@@ -500,7 +409,7 @@ const {
         return;
       }
 
-      // 2. Fall: Mindestens eine Kachel geöffnet -> Reale Cluster-Höhe im DOM messen
+      // 2. Fall: Mindestens eine Kachel geöffnet -> Reale Kachelhöhe im DOM messen
       let maxHeight = 0;
 
       items.forEach((item, idx) => {
@@ -508,17 +417,15 @@ const {
         const isExpanded = item.getAttribute('data-expanded') === 'true';
 
         if (isVisible || isExpanded) {
-          const clusterWrapper = item.closest<HTMLElement>('.group-cluster-wrapper');
-          const targetEl = clusterWrapper || item;
           // offsetHeight liefert die exakte Pixelhöhe inklusive Tab, Kachel-Content und Padding
-          if (targetEl.offsetHeight > maxHeight) {
-            maxHeight = targetEl.offsetHeight;
+          if (item.offsetHeight > maxHeight) {
+            maxHeight = item.offsetHeight;
           }
         }
       });
 
       if (maxHeight > 0) {
-        // Exakte Clusterhöhe + Viewport-Padding + 4px Puffer
+        // Exakte Kachelhöhe + Viewport-Padding + 4px Puffer
         this.viewport.style.height = `${Math.ceil(maxHeight + extraPad + 4)}px`;
       }
     }
