@@ -1,9 +1,11 @@
 export const TAB_ABBREVIATIONS: Record<string, string> = {
-  'Entwicklung & Architektur': 'Dev & Arch',
+  'Entwicklung & Architektur': 'Dev',
   'Künstliche Intelligenz': 'KI',
   'Machine Learning': 'ML',
-  'Infrastruktur & Backend': 'Infra & BE',
+  'Backend': 'Backend',
+  'Datenaufbereitung': 'Datenaufb.',
   'Software-Architektur': 'Architektur',
+  'Webinterface': 'Web'
 };
 
 export function getTabAbbr(label: string): string {

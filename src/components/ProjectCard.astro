@@ -22,6 +22,7 @@ export interface ProjectData {
   tags?: string[];
   githubUrl?: string;
   sourceUrl?: string;
+  ergebnis?: ContentBlock[];
   highlights?: ContentBlock[];
 }
 
@@ -44,6 +45,12 @@ const descriptionBlocks: ContentBlock[] = project.description
   ? Array.isArray(project.description)
     ? project.description
     : [project.description]
+  : [];
+
+const ergebnisBlocks: ContentBlock[] = project.ergebnis
+  ? Array.isArray(project.ergebnis)
+    ? project.ergebnis
+    : [project.ergebnis]
   : [];
 ---
 
@@ -115,16 +122,26 @@ const descriptionBlocks: ContentBlock[] = project.description
 
       <!-- Zone 2: Tags / Skills Platzhalter -->
       <div class="py-2.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-col justify-start shrink-0">
-        <p class="text-sm font-mono text-zinc-400 dark:text-zinc-600 leading-relaxed">
-          ...
-        </p>
+        {project.tags && project.tags.length > 0 ? (
+          <div class="flex flex-wrap gap-1.5">
+            {project.tags.map((tag: string) => (
+              <span class="font-mono text-xs px-2 py-0.5 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300">
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <p class="text-sm font-mono text-zinc-400 dark:text-zinc-600 leading-relaxed">
+            ...
+          </p>
+        )}
       </div>
 
       <!-- Zone 3: Bottom Status Label -->
       <div class="flex-1 flex flex-col justify-end pt-2.5 min-h-0">
         <div class="flex items-center justify-between">
           <span class="font-mono text-xs text-zinc-500 dark:text-zinc-400">
-            Wird noch eingepflegt
+            
           </span>
           <span class="font-mono text-xs text-zinc-400 dark:text-zinc-600">
             ...
@@ -255,6 +272,39 @@ const descriptionBlocks: ContentBlock[] = project.description
             </div>
           )}
 
+          <!-- Bereich: Ergebnis -->
+          {ergebnisBlocks.length > 0 && (
+            <div class={(descriptionBlocks.length > 0 || (project.highlights && project.highlights.length > 0)) ? 'pt-3 border-t border-zinc-100 dark:border-zinc-800/80' : ''}>
+              <span class="font-mono text-[14px] uppercase tracking-widest text-zinc-400 dark:text-white block mb-1.5">
+                // ERGEBNIS
+              </span>
+              <div class="space-y-3">
+                {ergebnisBlocks.map((section: ContentBlock) => (
+                  isSection(section) ? (
+                    <div class="space-y-1.5">
+                      <span class="font-mono text-[11px] font-semibold text-zinc-900 dark:text-zinc-200 block">
+                        {section.category}
+                      </span>
+                      <ul class="space-y-1 pl-1">
+                        {section.items.map((item: string) => (
+                          <li class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                            <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
+                            <span class="leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <div class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                      <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
+                      <span class="leading-relaxed">{section}</span>
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
+          )}
+
           <!-- Bereich: Highlights -->
           {project.highlights && project.highlights.length > 0 && (
             <div class={descriptionBlocks.length > 0 ? 'pt-3 border-t border-zinc-100 dark:border-zinc-800/80' : ''}>
@@ -287,6 +337,8 @@ const descriptionBlocks: ContentBlock[] = project.description
               </div>
             </div>
           )}
+
+          
         </div>
 
         <div class="mt-auto shrink-0 flex items-center justify-between pt-1">
