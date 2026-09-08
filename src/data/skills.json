@@ -2,6 +2,7 @@
   {
     "index": "01",
     "title": "Programmiersprachen",
+    "tabs": ["Entwicklung & Architektur"],
     "description": "Anhand von Java habe ich Architektur- und Entwurfsprinzipien für qualitativ hochwertige Software erlernt. Mehr dazu im Abschnitt Architektur. Um Python kommt man im Bereich KI/ML nicht herum und ist ein ständiger Begleiter. Skriptsprachen sind hier nicht aufgeführt.",
     "skills": [
       "Python",
@@ -12,6 +13,7 @@
   {
     "index": "02",
     "title": "Software-Architektur & Clean Code",
+    "tabs": ["Entwicklung & Architektur"],
     "description": "Über grundlegende Architektur- und Entwurfskonzepte, die SOLID-Prinzipien und den produktiven Umgang mit einer IDE (Debugging, Refactoring etc. in IntelliJ) konnte ich bereits Wesentliches lernen. ",
     "skills": [
       "Clean Architecture",
@@ -25,33 +27,36 @@
   {
     "index": "03",
     "title": "LLMs: Integration und Anpassung",
+    "tabs": ["Künstliche Intelligenz", "Machine Learning", "RAG", "Data"],
     "description": "In Uni- und/oder privaten Projekten habe ich bereits mit RAG, Vektorsuche und der individuellen Anpassung kleinerer Modelle sowie Machine Learning gearbeitet.",
     "skills": [
-      "RAG",
-      "ChromaDB",
+      "RAG", "Data-Preparation",
       "Sentence-Transformers",
+      "ChromaDB",
       "PyTorch",
       "TensorFlow",
       "Scikit-Learn",
-      "Modell-Finetuning",
-      "Datenextraktion und -aufbereitung"
+      "Modell-Finetuning"
     ]
   },
   {
     "index": "04",
     "title": "Agentische KI: Anwendung und Implementierung",
+    "tabs": ["Künstliche Intelligenz"],
     "description": "Meine Erfahrungen mit agentischer KI belaufen sich sowohl auf die Anwendung von Agent Harnesses als auch auf die Integration und Experimente mit dem Erstellen agentischer Systeme ausschließlich in privaten Projekten.",
     "skills": [
       "\"manuelles\" Tool Calling",
-      "LangGraph",
+      "Agenten-Workflows mit LangGraph",
       "OpenCode", 
       "GeminiCLI", 
-      "ClaudeCode"
+      "Claude Code",
+      "Antigravity"
     ]
   },
   {
     "index": "05",
     "title": "Infrastruktur & Virtualisierung",
+    "tabs": ["Infrastruktur", "Backend"],
     "description": "Ich betreibe einen Proxmox-Homeserver, der verschiedene Projekte wie diese Webseite hostet. Bei Projekten in der Uni habe ich das Thema Virtualisierung/Containerisierung regelmäßig angewendet.",
     "skills": [
       "Proxmox VE",
@@ -67,6 +72,7 @@
   {
     "index": "06",
     "title": "Backend- & API-Entwicklung",
+    "tabs": ["Infrastruktur", "Backend"],
     "description": "Auch beim Entwurf und Testen von REST-APIs und deren Bereitstellung konnte ich hauptsächlich im Backend bereits mitwirken und teils eigene Projekte umsetzen.",
     "skills": [
       "RESTful APIs",
@@ -80,6 +86,7 @@
   {
     "index": "07",
     "title": "Datenbanken",
+    "tabs": ["Infrastruktur", "Backend", "Data"],
     "description": "Anbindung und Verwaltung relationaler, dokumentenbasierter, zeitreihen- sowie vektorbasierter Datenbanksysteme.",
     "skills": [
       "ChromaDB",

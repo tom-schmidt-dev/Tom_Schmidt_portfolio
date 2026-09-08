@@ -123,112 +123,98 @@ const {
     }
   }
 
-  /* Mobil (bis einschließlich 700px): 1 Kachel pro Ansicht */
-  @media (max-width: 700px) {
+  /* Mobil (< 640px): 1 Kachel pro Ansicht */
+  @media (max-width: 639px) {
     .carousel-root,
     .carousel-viewport {
       --fade-width: 1rem;
       -webkit-mask-image: none !important;
       mask-image: none !important;
     }
-    .carousel-track {
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
-    }
   }
 
-  /* Tablet (ab 701px): 2 Kacheln nebeneinander */
-  @media (min-width: 701px) {
-    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-    }
-
-    .group-cluster [data-expandable-card],
-    .group-cluster .project-card {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-    }
-  }
-
+  /* =========================================================================
+     Responsive Spaltenberechnung & Layout-Ausdehnung via Container Queries
+     ========================================================================= */
 
   .carousel-track {
-    padding-left: var(--fade-width);
-    padding-right: var(--fade-width);
+    --carousel-gap: 1.5rem;
+    gap: var(--carousel-gap);
+    --card-width: calc(100cqi - (2 * var(--fade-width, 1rem)));
+    padding-left: var(--fade-width, 1rem);
+    padding-right: var(--fade-width, 1rem);
   }
-  .carousel-track > .group-cluster-wrapper,
-  .carousel-track > .group-cluster {
-    flex: 0 0 auto;
-    width: auto;
-    max-width: none;
-  }
+
   .carousel-root [data-expandable-card] {
-    transition: height 200ms ease-out;
+    
   }
-  .carousel-root [data-expandable-card][data-expanded="false"],
-  .carousel-root .project-card:not([data-expandable-card]) {
-    height: var(--card-height-collapsed);
+
+  /* Unter 410px: Tabs liegen oben, Kachel-Inhalt behält Mindesthöhe */
+  @media (max-width: 409px) {
+    .carousel-root [data-expandable-card][data-expanded="false"],
+    .carousel-root .project-card:not([data-expandable-card]),
+    .carousel-root .skill-card:not([data-expandable-card]) {
+      height: auto;
+    }
+    .carousel-root [data-expandable-card][data-expanded="false"] .card-content,
+    .carousel-root .project-card:not([data-expandable-card]) .card-content,
+    .carousel-root .skill-card:not([data-expandable-card]) .card-content {
+      height: var(--card-height-collapsed);
+    }
   }
+
+  /* Ab 410px: Kachelhöhe ist die feste Obergrenze */
+  @media (min-width: 410px) {
+    .carousel-root [data-expandable-card][data-expanded="false"],
+    .carousel-root .project-card:not([data-expandable-card]),
+    .carousel-root .skill-card:not([data-expandable-card]) {
+      height: var(--card-height-collapsed);
+    }
+    .carousel-root [data-expandable-card] .card-content,
+    .carousel-root .project-card .card-content,
+    .carousel-root .skill-card .card-content {
+      height: 100%;
+    }
+  }
+
+  /* Expandierter Zustand: Volle Höhe */
   .carousel-root [data-expandable-card][data-expanded="true"] {
     height: auto;
     min-height: var(--card-height-collapsed);
   }
+  .carousel-root [data-expandable-card][data-expanded="true"] .card-content {
+    height: auto;
+    min-height: var(--card-height-collapsed);
+  }
 
-  /* =========================================================================
-     Responsive Spaltenberechnung & Layout-Ausdehnung
-     ========================================================================= */
-
-  /* Mobil (< 640px): 1 Kachel pro Ansicht
-     Exakte Berücksichtigung von Track-Padding (2 * fade), Tab-Breite und Cluster-Padding (1rem) */
-  .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
-    flex: 0 0 calc(100cqi - (2 * var(--fade-width, 1rem)));
-    width: calc(100cqi - (2 * var(--fade-width, 1rem)));
-    max-width: calc(100cqi - (2 * var(--fade-width, 1rem)));
+  .carousel-track > * {
+    flex: 0 0 var(--card-width);
+    width: var(--card-width);
+    max-width: var(--card-width);
     min-width: 0;
     box-sizing: border-box;
   }
 
-  .group-cluster [data-expandable-card],
-  .group-cluster .project-card {
-    flex: 0 0 calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
-    width: calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
-    max-width: calc(100cqi - (2 * var(--fade-width, 1rem)) - var(--dynamic-tab-width, 0px) - 1rem);
-    min-width: 0;
-    box-sizing: border-box;
-  }
-
-  /* Tablet (ab 640px statt 768px): 2 Kacheln nebeneinander
-     Verhindert das Aufblähen einer Einzelkachel zwischen 640px und 767px */
-  @media (min-width: 640px) {
-    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 1.5rem) / 2);
+  /* Tablet (@container (min-width: 640px)): 2 Kacheln nebeneinander */
+  @container (min-width: 640px) {
+    .carousel-track {
+      --card-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--carousel-gap)) / 2);
+      padding-left: var(--fade-width, 2.5rem);
+      padding-right: var(--fade-width, 2.5rem);
     }
 
-    .group-cluster [data-expandable-card],
-    .group-cluster .project-card {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - var(--dynamic-tab-width, 0px) - 1.25rem - 1.5rem) / 2);
+    .carousel-track > [data-expand-width="double"][data-expanded="true"] {
+      --card-width-expanded: calc(2 * var(--card-width) + var(--carousel-gap));
+      flex: 0 0 var(--card-width-expanded);
+      width: var(--card-width-expanded);
+      max-width: var(--card-width-expanded);
     }
   }
 
-  /* Desktop (ab 1024px): 3 Kacheln nebeneinander */
-  @media (min-width: 1024px) {
-    .carousel-track > *:not(.group-cluster-wrapper):not(.group-cluster) {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - 3rem) / 3);
-    }
-
-    .group-cluster [data-expandable-card],
-    .group-cluster .project-card {
-      flex: 0 0 calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
-      width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
-      max-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--dynamic-tab-width, 0px)) - 1.25rem - 3rem) / 3);
+  /* Desktop (@container (min-width: 1024px)): 3 Kacheln nebeneinander */
+  @container (min-width: 1024px) {
+    .carousel-track {
+      --card-width: calc((100cqi - (2 * var(--fade-width, 2.5rem)) - (2 * var(--carousel-gap))) / 3);
     }
   }
 
@@ -274,34 +260,38 @@ const {
     }
 
     private getItems(): HTMLElement[] {
-      return Array.from(
-        this.track.querySelectorAll<HTMLElement>(
-          '.project-card, [data-expandable-card], .carousel-track > *'
-        )
-      ).filter(
-        (el) =>
-          !el.classList.contains('group-cluster') &&
-          !el.classList.contains('group-cluster-wrapper') &&
-          !el.classList.contains('group-tab')
+      return Array.from(this.track.children).filter(
+        (el): el is HTMLElement => el instanceof HTMLElement
       );
     }
 
     private getVisibleCount(): number {
       if (window.innerWidth >= 1024) return 3;
-      if (window.innerWidth >= 701) return 2;
+      if (window.innerWidth >= 640) return 2;
       return 1;
     }
 
     private updateDimensions() {
-      const sampleTab = this.track.querySelector('.group-tab') as HTMLElement | null;
-      const tabWidth = sampleTab ? Math.ceil(sampleTab.getBoundingClientRect().width) : 0;
+      const sampleTab = this.track.querySelector<HTMLElement>('[data-card-tab], .card-tab');
+      const tabWidth = sampleTab && window.innerWidth >= 410 ? Math.ceil(sampleTab.getBoundingClientRect().width) : 0;
       this.root.style.setProperty('--dynamic-tab-width', `${tabWidth}px`);
       this.viewport.style.setProperty('--dynamic-tab-width', `${tabWidth}px`);
 
       const items = this.getItems();
-      const totalItems = items.length;
-      const visibleCount = this.getVisibleCount();
-      this.maxIndex = Math.max(0, totalItems - visibleCount);
+      if (items.length === 0) {
+        this.maxIndex = 0;
+        return;
+      }
+      const firstItem = items[0];
+      const maxShift = Math.max(0, this.track.scrollWidth - this.viewport.clientWidth);
+      let foundMax = items.length - 1;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].offsetLeft - firstItem.offsetLeft >= maxShift) {
+          foundMax = i;
+          break;
+        }
+      }
+      this.maxIndex = foundMax;
 
       if (this.currentIndex > this.maxIndex) {
         this.currentIndex = this.maxIndex;
@@ -316,84 +306,25 @@ const {
       const targetItem = items[this.currentIndex];
       const firstItem = items[0];
 
-      const getOffset = (el: HTMLElement) => {
-        let offset = 0;
-        let curr: HTMLElement | null = el;
-        while (curr && curr !== this.track) {
-          offset += curr.offsetLeft;
-          curr = curr.offsetParent as HTMLElement | null;
-        }
-        return offset;
-      };
-
-      // Tab-Versatz für Bildschirme < 700px dynamisch ermitteln
-      let tabOffset = 0;
-      if (window.innerWidth < 700) {
-        const sampleWrapper = this.track.querySelector<HTMLElement>('.group-cluster-wrapper');
-        const sampleTab = sampleWrapper?.querySelector<HTMLElement>('.group-tab');
-        if (sampleWrapper && sampleTab) {
-          // Nur berücksichtigen, wenn der Tab links liegt (nicht oben gestapelt via flex-col < 410px)
-          const isStacked = window.getComputedStyle(sampleWrapper).flexDirection === 'column';
-          if (!isStacked) {
-            const sampleFirstCard = sampleWrapper.querySelector<HTMLElement>(
-              '.project-card, [data-expandable-card]'
-            );
-            if (sampleFirstCard) {
-              tabOffset = getOffset(sampleFirstCard) - sampleWrapper.offsetLeft;
-            } else {
-              tabOffset = sampleTab.offsetWidth;
-            }
-          }
-        }
-      }
-
-      const clusterWrapper = targetItem.closest<HTMLElement>('.group-cluster-wrapper');
-      const cluster = targetItem.closest<HTMLElement>('.group-cluster');
-      let targetOffset: number;
-
-      if (clusterWrapper && cluster) {
-        const clusterItems = Array.from(
-          cluster.querySelectorAll<HTMLElement>('.project-card, [data-expandable-card]')
-        );
-        const isFirstInCluster = clusterItems[0] === targetItem;
-        if (isFirstInCluster) {
-          targetOffset = clusterWrapper.offsetLeft;
-        } else {
-          targetOffset = getOffset(targetItem) - tabOffset;
-        }
-      } else if (cluster) {
-        const clusterItems = Array.from(
-          cluster.querySelectorAll<HTMLElement>('.project-card, [data-expandable-card]')
-        );
-        const isFirstInCluster = clusterItems[0] === targetItem;
-        if (isFirstInCluster) {
-          targetOffset = cluster.offsetLeft;
-        } else {
-          targetOffset = getOffset(targetItem) - tabOffset;
-        }
-      } else {
-        targetOffset = getOffset(targetItem) - tabOffset;
-      }
-
-      const firstWrapper = firstItem.closest<HTMLElement>('.group-cluster-wrapper');
-      const firstCluster = firstItem.closest<HTMLElement>('.group-cluster');
-      const firstOffset = firstWrapper
-        ? firstWrapper.offsetLeft
-        : firstCluster
-        ? firstCluster.offsetLeft
-        : getOffset(firstItem);
-      const rawShift = targetOffset - firstOffset;
-      // Auf Bildschirmen < 640px erlauben wir dem Track, bis zum tatsächlichen Element-Offset zu fahren
-      const isMobile = window.innerWidth < 700;
+      const rawShift = targetItem.offsetLeft - firstItem.offsetLeft;
+      const isMobile = window.innerWidth < 640;
       const maxShift = Math.max(0, this.track.scrollWidth - this.viewport.clientWidth);
-      const shift = isMobile 
+      let shift = isMobile 
         ? Math.max(0, rawShift) 
         : Math.min(Math.max(0, rawShift), maxShift);
 
+      // Anti-Clipping nur für das aktive Ziel-Element
+      const viewportWidth = this.viewport.clientWidth;
+      const itemOffset = targetItem.offsetLeft;
+      const itemWidth = targetItem.offsetWidth;
+      if (itemOffset + itemWidth > shift + viewportWidth) {
+        shift = Math.min(maxShift, Math.max(shift, itemOffset + itemWidth - viewportWidth));
+      }
+
       this.track.style.transform = `translateX(-${shift}px)`;
 
-      // Dynamische CSS-Masken-Variablen für weiches Ausfaden
-      const maskLeft = 'var(--fade-width, 2.5rem)';
+      // Dynamische CSS-Masken-Variablen (beide Ränder dynamisch)
+      const maskLeft = shift <= 0 ? '0px' : 'var(--fade-width, 2.5rem)';
       const maskRight = shift >= maxShift ? '0px' : 'var(--fade-width, 2.5rem)';
       this.viewport.style.setProperty('--mask-left', maskLeft);
       this.viewport.style.setProperty('--mask-right', maskRight);
@@ -473,20 +404,17 @@ const {
         (el) => el.getAttribute('data-expanded') === 'true'
       );
 
-      // Viewport-Padding (pt-7 pb-1) dynamisch aus dem berechneten Style lesen
       const vpStyle = window.getComputedStyle(this.viewport);
       const padTop = parseFloat(vpStyle.paddingTop) || 0;
       const padBottom = parseFloat(vpStyle.paddingBottom) || 0;
       const extraPad = padTop + padBottom;
 
-      // 1. Fall: Alle Kacheln eingeklappt -> Standardhöhe nutzen
       if (!anyExpanded) {
-        const currentItem = items[this.currentIndex];
-        const clusterWrapper = currentItem?.closest<HTMLElement>('.group-cluster-wrapper');
+        const currentItem = items[this.currentIndex] || items[0];
         let extraTabHeight = 0;
 
-        if (clusterWrapper && window.getComputedStyle(clusterWrapper).flexDirection === 'column') {
-          const tabEl = clusterWrapper.querySelector<HTMLElement>('.group-tab');
+        if (window.innerWidth < 410 && currentItem) {
+          const tabEl = currentItem.querySelector<HTMLElement>('[data-card-tabs], .card-tabs');
           if (tabEl) {
             extraTabHeight = tabEl.offsetHeight;
           }
@@ -500,7 +428,6 @@ const {
         return;
       }
 
-      // 2. Fall: Mindestens eine Kachel geöffnet -> Reale Cluster-Höhe im DOM messen
       let maxHeight = 0;
 
       items.forEach((item, idx) => {
@@ -508,18 +435,22 @@ const {
         const isExpanded = item.getAttribute('data-expanded') === 'true';
 
         if (isVisible || isExpanded) {
-          const clusterWrapper = item.closest<HTMLElement>('.group-cluster-wrapper');
-          const targetEl = clusterWrapper || item;
-          // offsetHeight liefert die exakte Pixelhöhe inklusive Tab, Kachel-Content und Padding
-          if (targetEl.offsetHeight > maxHeight) {
-            maxHeight = targetEl.offsetHeight;
+          const contentEl = item.querySelector<HTMLElement>('.card-content');
+          // scrollHeight erfasst die tatsächliche Inhaltsausdehnung unabhängig von temporären Box-Restriktionen
+          const itemRealHeight = Math.max(
+            item.offsetHeight,
+            item.scrollHeight,
+            contentEl ? contentEl.scrollHeight : 0
+          );
+          if (itemRealHeight > maxHeight) {
+            maxHeight = itemRealHeight;
           }
         }
       });
 
       if (maxHeight > 0) {
-        // Exakte Clusterhöhe + Viewport-Padding + 4px Puffer
-        this.viewport.style.height = `${Math.ceil(maxHeight + extraPad + 4)}px`;
+        // Exakte Höhe + Viewport-Padding + 8px Sicherheitsabstand gegen Rundungsfehler
+        this.viewport.style.height = `${Math.ceil(maxHeight + extraPad + 8)}px`;
       }
     }
 
@@ -575,16 +506,25 @@ const {
       const observer = new MutationObserver((mutations) => {
         for (const m of mutations) {
           if (m.type === 'attributes' && m.attributeName === 'data-expanded') {
-            this.updateViewportHeight();
+            const targetEl = m.target as HTMLElement;
+            if (targetEl.getAttribute('data-expanded') === 'true') {
+              const items = this.getItems();
+              const expandedIdx = items.indexOf(targetEl);
+              if (expandedIdx > this.currentIndex) {
+                this.currentIndex = Math.min(expandedIdx, this.maxIndex);
+              }
+            }
+            this.updateDimensions();
+            this.render();
             break;
           }
         }
       });
-      observer.observe(this.track, {
-        attributes: true,
-        subtree: true,
-        attributeFilter: ['data-expanded'],
+
+      const resizeObserver = new ResizeObserver(() => {
+        this.updateViewportHeight();
       });
+      resizeObserver.observe(this.track);
 
       this.btnNext.addEventListener('click', () => this.goNext());
       this.btnPrev.addEventListener('click', () => this.goPrev());

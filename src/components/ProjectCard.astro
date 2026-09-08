@@ -1,5 +1,6 @@
 ---
 import { Github } from 'lucide-astro';
+import { getTabAbbr } from '../utils/tabs';
 
 export type HighlightSection = {
   category: string;
@@ -8,27 +9,33 @@ export type HighlightSection = {
 
 export type ContentBlock = string | HighlightSection;
 
+export interface ProjectData {
+  id: string;
+  title: string;
+  tabs?: string[];
+  description?: ContentBlock | ContentBlock[];
+  category: string;
+  period?: string;
+  privat?: boolean;
+  uni?: boolean;
+  isPlaceholder?: boolean;
+  tags?: string[];
+  githubUrl?: string;
+  sourceUrl?: string;
+  ergebnis?: ContentBlock[];
+  highlights?: ContentBlock[];
+}
+
 export interface Props {
-  project: {
-    id: string;
-    title: string;
-    description?: ContentBlock | ContentBlock[];
-    category: string;
-    period?: string;
-    privat?: boolean;
-    uni?: boolean;
-    isPlaceholder?: boolean;
-    tags?: string[];
-    githubUrl?: string;
-    sourceUrl?: string;
-    highlights?: ContentBlock[];
-  };
+  project: ProjectData;
   groupFlag?: string;
 }
 
 const { project, groupFlag } = Astro.props;
 const isPlaceholder = project.isPlaceholder || project.title === '...';
 const sourceUrl = project.sourceUrl || project.githubUrl;
+
+const tabs: string[] = project.tabs ?? [];
 
 function isSection(item: ContentBlock): item is HighlightSection {
   return typeof item === 'object' && item !== null && 'category' in item && 'items' in item;
@@ -39,210 +46,324 @@ const descriptionBlocks: ContentBlock[] = project.description
     ? project.description
     : [project.description]
   : [];
+
+const ergebnisBlocks: ContentBlock[] = project.ergebnis
+  ? Array.isArray(project.ergebnis)
+    ? project.ergebnis
+    : [project.ergebnis]
+  : [];
 ---
 
 {isPlaceholder ? (
   <article 
-    class="project-card group relative flex flex-col justify-between border border-dashed border-zinc-300 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40 p-5 sm:p-6 opacity-50 select-none transition-[height,border-color] duration-200 ease-out w-[260px] max-w-[calc(100cqi-1rem)] min-w-0 sm:min-w-[260px] shrink-0"
-    style="--zone-header-h: 7rem; --zone-tech-h: 7.75rem;"
+    class="project-card group relative flex flex-col min-[410px]:flex-row items-stretch border-0 p-0 opacity-50 select-none transition-[height,border-color] duration-200 ease-out min-w-0 shrink-0"
+    data-multi-tab={tabs.length > 1 ? "true" : "false"}
   >
-    <!-- Zone 1: Header / Titel -->
-    <div class="h-[var(--zone-header-h)] flex flex-col justify-between pb-2 mb-0 border-b border-zinc-100 dark:border-zinc-800/80">
-      <div class="flex items-start justify-between gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
-        <div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 min-w-0">
-          <span class="uppercase tracking-wider whitespace-nowrap shrink-0">
-            //{project.category}
-          </span>
-          {project.period && (
-            <span class="whitespace-nowrap text-zinc-400 dark:text-zinc-500 text-[11px] shrink-0">
-              {project.period}
+    <!-- Tabs: Unter 410px oben/horizontal gestapelt, ab 410px links/vertikal oben angedockt -->
+    {tabs.length > 0 && (
+      <div
+        class="card-tabs flex shrink-0 select-none flex-wrap min-[410px]:flex-col gap-1 self-start z-10 -mb-px min-[410px]:mb-0 min-[410px]:-mr-px h-auto"
+        data-card-tabs
+        onclick="event.stopPropagation()"
+      >
+        {tabs.map((tab) => {
+          const abbr = getTabAbbr(tab);
+          return (
+            <div
+              class="card-tab flex-initial min-w-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
+              style="min-inline-size: 4ch;"
+              data-card-tab
+            >
+              <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
+                <span class="tab-label-full">{tab}</span>
+                <span class="tab-label-short">{abbr}</span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    )}
+
+    <!-- Kachel-Inhalt -->
+    <div
+      class="card-content flex-1 min-w-0 flex flex-col justify-between border border-dashed border-zinc-300 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40 p-5 sm:p-6"
+      style="--zone-header-h: 7rem; --zone-tech-h: 7.75rem;"
+    >
+      <!-- Zone 1: Header / Titel -->
+      <div class="h-[var(--zone-header-h)] flex flex-col justify-between pb-2 mb-0 border-b border-zinc-100 dark:border-zinc-800/80">
+        <div class="flex items-start justify-between gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 min-w-0">
+            <span class="uppercase tracking-wider whitespace-nowrap shrink-0">
+              //{project.category}
+            </span>
+            {project.period && (
+              <span class="whitespace-nowrap text-zinc-400 dark:text-zinc-500 text-[11px] shrink-0">
+                {project.period}
+              </span>
+            )}
+          </div>
+
+          {project.privat && (
+            <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 self-start">
+              Privatprojekt
+            </span>
+          )}
+          {project.uni && (
+            <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 self-start">
+              Uniprojekt
             </span>
           )}
         </div>
 
-        {project.privat && (
-          <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 self-start">
-            Privatprojekt
-          </span>
-        )}
-        {project.uni && (
-          <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 self-start">
-            Uniprojekt
-          </span>
+        <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight leading-snug">
+          {project.title}
+        </h3>
+      </div>
+
+      <!-- Zone 2: Tags / Skills Platzhalter -->
+      <div class="py-2.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-col justify-start shrink-0">
+        {project.tags && project.tags.length > 0 ? (
+          <div class="flex flex-wrap gap-1.5">
+            {project.tags.map((tag: string) => (
+              <span class="font-mono text-xs px-2 py-0.5 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300">
+                {tag}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <p class="text-sm font-mono text-zinc-400 dark:text-zinc-600 leading-relaxed">
+            ...
+          </p>
         )}
       </div>
 
-      <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight leading-snug">
-        {project.title}
-      </h3>
-    </div>
-
-    <!-- Zone 2: Tags / Skills Platzhalter -->
-    <div class="py-2.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-col justify-start shrink-0">
-      <p class="text-sm font-mono text-zinc-400 dark:text-zinc-600 leading-relaxed">
-        ...
-      </p>
-    </div>
-
-    <!-- Zone 3: Bottom Status Label -->
-    <div class="flex-1 flex flex-col justify-end pt-2.5 min-h-0">
-      <div class="flex items-center justify-between">
-        <span class="font-mono text-xs text-zinc-500 dark:text-zinc-400">
-          Wird noch eingepflegt
-        </span>
-        <span class="font-mono text-xs text-zinc-400 dark:text-zinc-600">
-          ...
-        </span>
+      <!-- Zone 3: Bottom Status Label -->
+      <div class="flex-1 flex flex-col justify-end pt-2.5 min-h-0">
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+            
+          </span>
+          <span class="font-mono text-xs text-zinc-400 dark:text-zinc-600">
+            ...
+          </span>
+        </div>
       </div>
     </div>
   </article>
 ) : (
   <article
-    class="project-card group relative flex flex-col justify-between border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-5 sm:p-6 hover:border-zinc-400 dark:hover:border-zinc-600 transition-[height,border-color] duration-200 ease-out cursor-pointer select-text w-[260px] max-w-[calc(100cqi-1rem)] min-w-0 sm:min-w-[260px] shrink-0"
+    class="project-card group relative flex flex-col min-[410px]:flex-row items-stretch shrink-0 cursor-pointer select-text min-w-0"
     data-expandable-card
     data-expanded="false"
+    data-expand-width="double"
     data-project-id={project.id}
+    data-multi-tab={tabs.length > 1 ? "true" : "false"}
     tabindex="0"
     role="button"
     aria-expanded="false"
-    style="--zone-header-h: 7.25rem;"
   >
-    <!-- Zone 1: Header / Titel -->
-    <div class="h-[var(--zone-header-h)] flex flex-col justify-between pb-2 mb-0 border-b border-zinc-100 dark:border-zinc-800/80">
-      <div class="flex items-start justify-between gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
-        <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 min-w-0">
-          <span class="inline-flex items-center whitespace-nowrap uppercase tracking-wider shrink-0 text-zinc-600 dark:text-zinc-300">
-            //{project.category}
-          </span>
-          {project.period && (
-            <span class="inline-flex items-center whitespace-nowrap text-zinc-400 dark:text-zinc-500 text-[11px] shrink-0">
-              {project.period}
+    <!-- Tabs: Unter 410px oben/horizontal gestapelt, ab 410px links/vertikal oben angedockt -->
+    {tabs.length > 0 && (
+      <div
+        class="card-tabs flex shrink-0 select-none flex-wrap min-[410px]:flex-col gap-1 self-start z-10 -mb-px min-[410px]:mb-0 min-[410px]:-mr-px h-auto"
+        data-card-tabs
+        onclick="event.stopPropagation()"
+      >
+        {tabs.map((tab) => {
+          const abbr = getTabAbbr(tab);
+          return (
+            <div
+              class="card-tab flex-initial min-w-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
+              style="min-inline-size: 4ch;"
+              data-card-tab
+            >
+              <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
+                <span class="tab-label-full">{tab}</span>
+                <span class="tab-label-short">{abbr}</span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    )}
+
+    <!-- Kachel-Inhalt -->
+    <div
+      class="card-content flex-1 min-w-0 flex flex-col justify-between border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-5 sm:p-6 group-hover:border-zinc-400 dark:group-hover:border-zinc-600 transition-colors duration-200 ease-out"
+      style="--zone-header-h: 7.25rem;"
+    >
+      <!-- Zone 1: Header / Titel -->
+      <div class="h-[var(--zone-header-h)] flex flex-col justify-between pb-2 mb-0 border-b border-zinc-100 dark:border-zinc-800/80">
+        <div class="flex items-start justify-between gap-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 min-w-0">
+            <span class="inline-flex items-center whitespace-nowrap uppercase tracking-wider shrink-0 text-zinc-600 dark:text-zinc-300">
+              //{project.category}
+            </span>
+            {project.period && (
+              <span class="inline-flex items-center whitespace-nowrap text-zinc-400 dark:text-zinc-500 text-[11px] shrink-0">
+                {project.period}
+              </span>
+            )}
+          </div>
+
+          {project.privat && (
+            <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 self-start">
+              Privatprojekt
+            </span>
+          )}
+          {project.uni && (
+            <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 self-start">
+              Uniprojekt
             </span>
           )}
         </div>
 
-        {project.privat && (
-          <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 self-start">
-            Privatprojekt
-          </span>
-        )}
-        {project.uni && (
-          <span class="text-[10px] uppercase tracking-wider px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 self-start">
-            Uniprojekt
-          </span>
+        <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight leading-snug">
+          {project.title}
+        </h3>
+      </div>
+
+      <!-- Zone 2: Tech-Stack-Tags -->
+      <div class="py-2.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-col justify-start shrink-0">
+        {project.tags && project.tags.length > 0 && (
+          <div class="flex flex-wrap gap-1.5">
+            {project.tags.map((tag: string) => (
+              <span class="font-mono text-xs px-2 py-0.5 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300">
+                {tag}
+              </span>
+            ))}
+          </div>
         )}
       </div>
 
-      <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight leading-snug">
-        {project.title}
-      </h3>
-    </div>
+      <!-- Zone 3: Beschreibung, Highlights, Expander-Button, Links -->
+      <div class="flex-1 flex flex-col justify-between pt-2.5 min-h-0">
+        <div data-expand-full class="hidden pr-1 pb-2 mb-2.5 space-y-4">
+          
+          <!-- Bereich: Beschreibung -->
+          {descriptionBlocks.length > 0 && (
+            <div>
+              <span class="font-mono text-[14px] uppercase tracking-widest text-zinc-400 dark:text-white block mb-1.5">
+                // Meine Aufgabe:
+              </span>
+              <div class="space-y-3">
+                {descriptionBlocks.map((block: ContentBlock) => (
+                  isSection(block) ? (
+                    <div class="space-y-1.5">
+                      <span class="font-mono text-[11px] font-semibold text-zinc-900 dark:text-zinc-200 block">
+                        {block.category}
+                      </span>
+                      <ul class="space-y-1 pl-1">
+                        {block.items.map((item: string) => (
+                          <li class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                            <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
+                            <span class="leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                      {block}
+                    </p>
+                  )
+                ))}
+              </div>
+            </div>
+          )}
 
-    <!-- Zone 2: Tech-Stack-Tags -->
-    <div class="py-2.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-col justify-start shrink-0">
-      {project.tags && project.tags.length > 0 && (
-        <div class="flex flex-wrap gap-1.5">
-          {project.tags.map((tag: string) => (
-            <span class="font-mono text-xs px-2 py-0.5 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300">
-              {tag}
-            </span>
-          ))}
+          <!-- Bereich: Ergebnis -->
+          {ergebnisBlocks.length > 0 && (
+            <div class={(descriptionBlocks.length > 0 || (project.highlights && project.highlights.length > 0)) ? 'pt-3 border-t border-zinc-100 dark:border-zinc-800/80' : ''}>
+              <span class="font-mono text-[14px] uppercase tracking-widest text-zinc-400 dark:text-white block mb-1.5">
+                // ERGEBNIS
+              </span>
+              <div class="space-y-3">
+                {ergebnisBlocks.map((section: ContentBlock) => (
+                  isSection(section) ? (
+                    <div class="space-y-1.5">
+                      <span class="font-mono text-[11px] font-semibold text-zinc-900 dark:text-zinc-200 block">
+                        {section.category}
+                      </span>
+                      <ul class="space-y-1 pl-1">
+                        {section.items.map((item: string) => (
+                          <li class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                            <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
+                            <span class="leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <div class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                      <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
+                      <span class="leading-relaxed">{section}</span>
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Bereich: Highlights -->
+          {project.highlights && project.highlights.length > 0 && (
+            <div class={descriptionBlocks.length > 0 ? 'pt-3 border-t border-zinc-100 dark:border-zinc-800/80' : ''}>
+              <span class="font-mono text-[14px] uppercase tracking-widest text-zinc-400 dark:text-white block mb-1.5">
+                // UMSETZUNG
+              </span>
+              <div class="space-y-3">
+                {project.highlights.map((section: ContentBlock) => (
+                  isSection(section) ? (
+                    <div class="space-y-1.5">
+                      <span class="font-mono text-[11px] font-semibold text-zinc-900 dark:text-zinc-200 block">
+                        {section.category}
+                      </span>
+                      <ul class="space-y-1 pl-1">
+                        {section.items.map((item: string) => (
+                          <li class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                            <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
+                            <span class="leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <div class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                      <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
+                      <span class="leading-relaxed">{section}</span>
+                    </div>
+                  )
+                ))}
+              </div>
+            </div>
+          )}
+
+          
         </div>
-      )}
-    </div>
 
-    <!-- Zone 3: Beschreibung, Highlights, Expander-Button, Links -->
-    <div class="flex-1 flex flex-col justify-between pt-2.5 min-h-0">
-      <div data-expand-full class="hidden pr-1 pb-2 mb-2.5 space-y-4">
-        
-        <!-- Bereich: Beschreibung -->
-        {descriptionBlocks.length > 0 && (
-          <div>
-            <span class="font-mono text-[14px] uppercase tracking-widest text-zinc-400 dark:text-white block mb-1.5">
-              // Meine Aufgabe:
-            </span>
-            <div class="space-y-3">
-              {descriptionBlocks.map((block: ContentBlock) => (
-                isSection(block) ? (
-                  <div class="space-y-1.5">
-                    <span class="font-mono text-[11px] font-semibold text-zinc-900 dark:text-zinc-200 block">
-                      {block.category}
-                    </span>
-                    <ul class="space-y-1 pl-1">
-                      {block.items.map((item: string) => (
-                        <li class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-                          <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
-                          <span class="leading-relaxed">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    {block}
-                  </p>
-                )
-              ))}
-            </div>
-          </div>
-        )}
-
-        <!-- Bereich: Highlights -->
-        {project.highlights && project.highlights.length > 0 && (
-          <div class={descriptionBlocks.length > 0 ? 'pt-3 border-t border-zinc-100 dark:border-zinc-800/80' : ''}>
-            <span class="font-mono text-[14px] uppercase tracking-widest text-zinc-400 dark:text-white block mb-1.5">
-              // UMSETZUNG
-            </span>
-            <div class="space-y-3">
-              {project.highlights.map((section: ContentBlock) => (
-                isSection(section) ? (
-                  <div class="space-y-1.5">
-                    <span class="font-mono text-[11px] font-semibold text-zinc-900 dark:text-zinc-200 block">
-                      {section.category}
-                    </span>
-                    <ul class="space-y-1 pl-1">
-                      {section.items.map((item: string) => (
-                        <li class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-                          <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
-                          <span class="leading-relaxed">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <div class="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
-                    <span class="font-mono text-zinc-400 dark:text-zinc-600 select-none">&mdash;</span>
-                    <span class="leading-relaxed">{section}</span>
-                  </div>
-                )
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div class="mt-auto shrink-0 flex items-center justify-between pt-1">
-        <button
-          type="button"
-          data-expand-btn
-          class="relative overflow-hidden font-mono text-[11px] leading-normal py-1 px-0.5 text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 underline underline-offset-2 transition-colors cursor-pointer after:content-[''] after:pointer-events-none after:absolute after:inset-0 after:-translate-y-full group-data-[expanded=true]:after:translate-y-full after:transition-none group-hover:after:translate-y-full group-data-[expanded=true]:group-hover:after:-translate-y-full group-hover:after:transition-transform group-hover:after:duration-[1200ms] group-hover:after:ease-out after:bg-[linear-gradient(180deg,transparent_15%,rgba(24,24,27,0.12)_50%,transparent_85%)] group-data-[expanded=true]:after:bg-[linear-gradient(0deg,transparent_15%,rgba(24,24,27,0.12)_50%,transparent_85%)] dark:after:bg-[linear-gradient(180deg,transparent_15%,rgba(255,255,255,0.22)_50%,transparent_85%)] dark:group-data-[expanded=true]:after:bg-[linear-gradient(0deg,transparent_15%,rgba(255,255,255,0.22)_50%,transparent_85%)]"
-        >
-          [mehr Info]
-        </button>
-
-        {sourceUrl && (
-          <a
-            href={sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="project-action-link inline-flex items-center gap-1.5 text-xs font-mono text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-zinc-100 transition-colors"
-            aria-label={`Source code for ${project.title}`}
-            onclick="event.stopPropagation()"
+        <div class="mt-auto shrink-0 flex items-center justify-between pt-1">
+          <button
+            type="button"
+            data-expand-btn
+            class="relative overflow-hidden font-mono text-[11px] leading-normal py-1 px-0.5 text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 underline underline-offset-2 transition-colors cursor-pointer after:content-[''] after:pointer-events-none after:absolute after:inset-0 after:-translate-y-full group-data-[expanded=true]:after:translate-y-full after:transition-none group-hover:after:translate-y-full group-data-[expanded=true]:group-hover:after:-translate-y-full group-hover:after:transition-transform group-hover:after:duration-[1200ms] group-hover:after:ease-out after:bg-[linear-gradient(180deg,transparent_15%,rgba(24,24,27,0.12)_50%,transparent_85%)] group-data-[expanded=true]:after:bg-[linear-gradient(0deg,transparent_15%,rgba(24,24,27,0.12)_50%,transparent_85%)] dark:after:bg-[linear-gradient(180deg,transparent_15%,rgba(255,255,255,0.22)_50%,transparent_85%)] dark:group-data-[expanded=true]:after:bg-[linear-gradient(0deg,transparent_15%,rgba(255,255,255,0.22)_50%,transparent_85%)]"
           >
-            <Github class="w-3.5 h-3.5" />
-            <span>Source</span>
-          </a>
-        )}
+            [mehr Info]
+          </button>
+
+          {sourceUrl && (
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-action-link inline-flex items-center gap-1.5 text-xs font-mono text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-zinc-100 transition-colors"
+              aria-label={`Source code for ${project.title}`}
+              onclick="event.stopPropagation()"
+            >
+              <Github class="w-3.5 h-3.5" />
+              <span>Source</span>
+            </a>
+          )}
+        </div>
       </div>
     </div>
   </article>

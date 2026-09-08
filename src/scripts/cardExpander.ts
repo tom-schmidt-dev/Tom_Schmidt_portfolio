@@ -34,8 +34,8 @@ function handleCardClick(e: MouseEvent): void {
   const target = e.target as HTMLElement | null;
   if (!target) return;
 
-  // Klick auf Links (a) oder .project-action-link isolieren
-  const actionLink = target.closest('a, .project-action-link');
+  // Klick auf Links (a), .project-action-link oder Tabs ([data-card-tab]) isolieren
+  const actionLink = target.closest('a, .project-action-link, [data-card-tab], [data-card-tabs]');
   if (actionLink) {
     return;
   }
@@ -58,8 +58,8 @@ function handleCardKeydown(e: KeyboardEvent): void {
   const target = e.target as HTMLElement | null;
   if (!target) return;
 
-  // Ignoriere Tastatur-Events, wenn ein Link fokussiert ist
-  if (target.closest('a, .project-action-link') || document.activeElement?.closest('a, .project-action-link')) return;
+  // Ignoriere Tastatur-Events, wenn ein Link oder Tab fokussiert ist
+  if (target.closest('a, .project-action-link, [data-card-tab], [data-card-tabs]') || document.activeElement?.closest('a, .project-action-link, [data-card-tab], [data-card-tabs]')) return;
 
   const card = target.closest<HTMLElement>('[data-expandable-card]');
   if (!card) return;
