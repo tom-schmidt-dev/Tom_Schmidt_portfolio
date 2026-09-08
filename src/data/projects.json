@@ -241,7 +241,7 @@
     "title": "Diverse Experimente mit (lokalen) LLMs / SLMs, KI-Agenten & Automatisierung",
     "tabs": ["Diverses"],
     "period": "2024 – heute",
-    "description": "Systematische Entwicklung und Erprobung agentischer KI-Systeme und lokaler Sprachmodelle. Beinhaltet die Implementierung von Tool-Calling-Mechanismen, Workflow-Graphen mit LangGraph, strukturierte Agent-Loops (OpenCode, Claude Code) sowie Finetuning und Quantisierung kompakter Open-Source-Modelle.",
+    "description": "Entwicklung agentischer KI-Workflows (Tool-Calling, LangGraph), Finetuning lokaler Sprachmodelle, Datenaufbereitung, agentic coding (OpenCode, Antigravity, Claude Code); Projekte in Experiment-Status",
     "category": "Solo",
     "privat": true,
     "uni": false,
@@ -249,15 +249,15 @@
     "githubUrl": "https://[Domain]",
     "liveUrl": "https://[Domain]",
     "highlights": [
-      "Entwicklung von Systemen mit Tool Calling",
-      "Lokale RAG-Integration, Prompting",
-      "Datenaufbereitung für kleinere Open-Source-Modelle"
+      "Simulation einer Gesellschaft autonomer, KI-gesteuerter Wesen via Toolcalling, mit finetuned local Model, mit Webinterface und Live-View",
+      "Verwaltung eines Systems, das automatisch Gesprächsinhalte mit lokaler KI vektorisiert und via RAG Informationen über mich in Konversationen einbindet (personal assistant)",
+      "Diverse Vibecoding-Modelle wie ein prozedualer Landschaftsgenerator in Three.js"
     ]
   },
 {
     "id": "self-hosted-portfolio-infrastructure",
     "title": "Diese Webseite",
-    "tabs": ["Self-Hosting", "Backend", "agentic AI"],
+    "tabs": ["Self-Hosting", "Backend", "agentic Coding"],
     "period": "09.2026",
     "description": {
       "category": "Zielsetzung:",
