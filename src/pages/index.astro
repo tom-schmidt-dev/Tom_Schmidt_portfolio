@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Skills from '../components/Skills.astro';
 import Projects from '../components/Projects.astro';
-import { ArrowRight } from 'lucide-astro';
+import { Mail, Linkedin, ArrowUpRight } from 'lucide-astro';
 ---
 
 <BaseLayout
@@ -13,7 +13,7 @@ import { ArrowRight } from 'lucide-astro';
   <!-- 1. Profil / Hero-Bereich -->
   <Hero />
 
-  <!-- 2. Technisches Profil & Kenntisse (Skills) -->
+  <!-- 2. Technisches Profil & Kenntnisse (Skills) -->
   <Skills />
 
   <!-- 3. Künstliche Intelligenz (KI-Sektion) -->
@@ -25,11 +25,11 @@ import { ArrowRight } from 'lucide-astro';
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-28 items-center">
         
-        <!-- Left: Text (Spalten 1 bis 5) -->
+        <!-- Links: Text & Status (Spalten 1 bis 5) -->
         <div class="lg:col-span-5 space-y-6">
           <div>
             <div class="text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">
-              // 05. Kontakt
+              // 04. Kontakt
             </div>
             <h2 class="text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
               Kontakt &amp; Anfragen
@@ -38,23 +38,70 @@ import { ArrowRight } from 'lucide-astro';
               Interessiert an einer Zusammenarbeit im Rahmen einer Werkstudententätigkeit, eines Projekts oder einer praxisorientierten Bachelorarbeit? Ich freue mich über Ihre Kontaktaufnahme.
             </p>
           </div>
+
+          <!-- Verfügbarkeits-Indikator -->
+          <div class="inline-flex items-center gap-2 px-2.5 py-1.5 border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 font-mono text-xs text-zinc-700 dark:text-zinc-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Verfügbar als Werkstudent / Bachelorarbeit</span>
+          </div>
         </div>
 
-        <!-- Right: Contact Info (Spalten 7 bis 12 -> Spalte 6 bleibt leer) -->
+        <!-- Rechts: Interaktive Kontaktkarte (Spalten 7 bis 12) -->
         <div class="lg:col-span-6 lg:col-start-7">
-          <div class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 divide-y divide-zinc-200 dark:divide-zinc-800 text-xs font-mono">
-            <div class="p-3.5 flex flex-col sm:flex-row sm:justify-between gap-1">
-              <span class="text-zinc-500">E-MAIL:</span>
-              <a href="mailto:kontakt@tom-schmidt.dev" class="text-zinc-900 dark:text-zinc-100 hover:underline">
-                kontakt@tom-schmidt.dev
-              </a>
+          <div class="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 divide-y divide-zinc-200 dark:divide-zinc-800 font-mono text-xs shadow-xs">
+            
+            <!-- Terminal-Header -->
+            <div class="px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/50 flex items-center justify-between text-[11px]">
+              <span class="text-zinc-500 uppercase tracking-wider">Kontakt aufnehmen</span>
+              <span class="text-zinc-400 dark:text-zinc-500">Berlin // Vor Ort, Hybrid &amp; Remote</span>
             </div>
-            <div class="p-3.5 flex flex-col sm:flex-row sm:justify-between gap-1">
-              <span class="text-zinc-500">LinkedIn:</span>
-              <a href="https://www.linkedin.com/in/tom-schmidt-dev/" class="text-zinc-900 dark:text-zinc-100 hover:underline">
-                Mein LinkedIn
-              </a>
+
+            <!-- E-Mail Zeile -->
+            <a
+              href="mailto:kontakt@tom-schmidt.dev"
+              class="group p-4 flex items-center justify-between gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-900/60 transition-colors duration-150"
+            >
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="p-2 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
+                  <Mail class="w-4 h-4" />
+                </div>
+                <div class="truncate">
+                  <span class="block text-[10px] text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">E-Mail</span>
+                  <span class="text-zinc-900 dark:text-zinc-100 group-hover:underline underline-offset-2">
+                    kontakt@tom-schmidt.dev
+                  </span>
+                </div>
+              </div>
+              <ArrowUpRight class="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+            </a>
+
+            <!-- LinkedIn Zeile -->
+            <a
+              href="https://www.linkedin.com/in/tom-schmidt-dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group p-4 flex items-center justify-between gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-900/60 transition-colors duration-150"
+            >
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="p-2 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
+                  <Linkedin class="w-4 h-4" />
+                </div>
+                <div class="truncate">
+                  <span class="block text-[10px] text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">LinkedIn</span>
+                  <span class="text-zinc-900 dark:text-zinc-100 group-hover:underline underline-offset-2">
+                    linkedin.com/in/tom-schmidt-dev
+                  </span>
+                </div>
+              </div>
+              <ArrowUpRight class="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+            </a>
+
+            <!-- Footer-Statuszeile -->
+            <div class="px-4 py-2.5 bg-zinc-50/50 dark:bg-zinc-900/20 flex items-center justify-between text-[11px] text-zinc-500">
+              <span>Rückmeldung:</span>
+              <span class="text-zinc-700 dark:text-zinc-300">in der Regel &lt; 24h</span>
             </div>
+
           </div>
         </div>
 
