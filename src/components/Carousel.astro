@@ -146,7 +146,7 @@ const {
   }
 
   .carousel-root [data-expandable-card] {
-    transition: height 200ms ease-out;
+    
   }
 
   /* Unter 410px: Tabs liegen oben, Kachel-Inhalt behält Mindesthöhe */
@@ -307,33 +307,24 @@ const {
       const firstItem = items[0];
 
       const rawShift = targetItem.offsetLeft - firstItem.offsetLeft;
-      // Auf Bildschirmen < 640px erlauben wir dem Track, bis zum tatsächlichen Element-Offset zu fahren
       const isMobile = window.innerWidth < 640;
       const maxShift = Math.max(0, this.track.scrollWidth - this.viewport.clientWidth);
       let shift = isMobile 
         ? Math.max(0, rawShift) 
         : Math.min(Math.max(0, rawShift), maxShift);
 
-      // Anti-Clipping bei Rand-Kacheln:
-      // Prüfe, ob die Zielkachel oder die expandierte Kachel über den sichtbaren rechten Rand hinausragt
+      // Anti-Clipping nur für das aktive Ziel-Element
       const viewportWidth = this.viewport.clientWidth;
-      const expandedItem = items.find((el) => el.getAttribute('data-expanded') === 'true');
-      const itemsToCheck = expandedItem && expandedItem !== targetItem
-        ? [targetItem, expandedItem]
-        : [targetItem];
-
-      for (const item of itemsToCheck) {
-        const itemOffset = item.offsetLeft;
-        const itemWidth = item.offsetWidth;
-        if (itemOffset + itemWidth > shift + viewportWidth) {
-          shift = Math.min(maxShift, Math.max(shift, itemOffset + itemWidth - viewportWidth));
-        }
+      const itemOffset = targetItem.offsetLeft;
+      const itemWidth = targetItem.offsetWidth;
+      if (itemOffset + itemWidth > shift + viewportWidth) {
+        shift = Math.min(maxShift, Math.max(shift, itemOffset + itemWidth - viewportWidth));
       }
 
       this.track.style.transform = `translateX(-${shift}px)`;
 
-      // Dynamische CSS-Masken-Variablen für weiches Ausfaden
-      const maskLeft = 'var(--fade-width, 2.5rem)';
+      // Dynamische CSS-Masken-Variablen (beide Ränder dynamisch)
+      const maskLeft = shift <= 0 ? '0px' : 'var(--fade-width, 2.5rem)';
       const maskRight = shift >= maxShift ? '0px' : 'var(--fade-width, 2.5rem)';
       this.viewport.style.setProperty('--mask-left', maskLeft);
       this.viewport.style.setProperty('--mask-right', maskRight);
@@ -413,13 +404,11 @@ const {
         (el) => el.getAttribute('data-expanded') === 'true'
       );
 
-      // Viewport-Padding (pt-7 pb-1) dynamisch aus dem berechneten Style lesen
       const vpStyle = window.getComputedStyle(this.viewport);
       const padTop = parseFloat(vpStyle.paddingTop) || 0;
       const padBottom = parseFloat(vpStyle.paddingBottom) || 0;
       const extraPad = padTop + padBottom;
 
-      // 1. Fall: Alle Kacheln eingeklappt -> Standardhöhe nutzen
       if (!anyExpanded) {
         const currentItem = items[this.currentIndex] || items[0];
         let extraTabHeight = 0;
@@ -439,7 +428,6 @@ const {
         return;
       }
 
-      // 2. Fall: Mindestens eine Kachel geöffnet -> Reale Kachelhöhe im DOM messen
       let maxHeight = 0;
 
       items.forEach((item, idx) => {
@@ -447,16 +435,22 @@ const {
         const isExpanded = item.getAttribute('data-expanded') === 'true';
 
         if (isVisible || isExpanded) {
-          // offsetHeight liefert die exakte Pixelhöhe inklusive Tab, Kachel-Content und Padding
-          if (item.offsetHeight > maxHeight) {
-            maxHeight = item.offsetHeight;
+          const contentEl = item.querySelector<HTMLElement>('.card-content');
+          // scrollHeight erfasst die tatsächliche Inhaltsausdehnung unabhängig von temporären Box-Restriktionen
+          const itemRealHeight = Math.max(
+            item.offsetHeight,
+            item.scrollHeight,
+            contentEl ? contentEl.scrollHeight : 0
+          );
+          if (itemRealHeight > maxHeight) {
+            maxHeight = itemRealHeight;
           }
         }
       });
 
       if (maxHeight > 0) {
-        // Exakte Kachelhöhe + Viewport-Padding + 4px Puffer
-        this.viewport.style.height = `${Math.ceil(maxHeight + extraPad + 4)}px`;
+        // Exakte Höhe + Viewport-Padding + 8px Sicherheitsabstand gegen Rundungsfehler
+        this.viewport.style.height = `${Math.ceil(maxHeight + extraPad + 8)}px`;
       }
     }
 
@@ -512,17 +506,25 @@ const {
       const observer = new MutationObserver((mutations) => {
         for (const m of mutations) {
           if (m.type === 'attributes' && m.attributeName === 'data-expanded') {
+            const targetEl = m.target as HTMLElement;
+            if (targetEl.getAttribute('data-expanded') === 'true') {
+              const items = this.getItems();
+              const expandedIdx = items.indexOf(targetEl);
+              if (expandedIdx > this.currentIndex) {
+                this.currentIndex = Math.min(expandedIdx, this.maxIndex);
+              }
+            }
             this.updateDimensions();
             this.render();
             break;
           }
         }
       });
-      observer.observe(this.track, {
-        attributes: true,
-        subtree: true,
-        attributeFilter: ['data-expanded'],
+
+      const resizeObserver = new ResizeObserver(() => {
+        this.updateViewportHeight();
       });
+      resizeObserver.observe(this.track);
 
       this.btnNext.addEventListener('click', () => this.goNext());
       this.btnPrev.addEventListener('click', () => this.goPrev());
