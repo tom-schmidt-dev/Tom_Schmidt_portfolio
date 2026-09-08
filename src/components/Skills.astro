@@ -1,15 +1,7 @@
 ---
 import Carousel from './Carousel.astro';
+import SkillCard, { type SkillItem } from './SkillCard.astro';
 import skillDataRaw from '../data/skills.json';
-import { getTabAbbr } from '../utils/tabs';
-
-export interface SkillItem {
-  index: string;
-  title: string;
-  tabs?: string[];
-  description: string;
-  skills: string[];
-}
 
 const skillData = skillDataRaw as SkillItem[];
 ---
@@ -33,90 +25,16 @@ const skillData = skillDataRaw as SkillItem[];
     <!-- Skill Cards Carousel -->
     <div class="carousel-zoom-wrapper">
       <Carousel id="carousel-skills" ariaLabel="Technische Kenntnisse" cardHeightCollapsed="23.5rem">
-        {skillData.map((group) => {
-          const cardTabs = group.tabs ?? [];
-          return (
-            <div
-              class="skill-card group relative flex flex-col min-[410px]:flex-row items-stretch shrink-0 cursor-pointer select-text min-w-0"
-              data-expandable-card
-              data-expanded="false"
-              data-multi-tab={cardTabs.length > 1 ? "true" : "false"}
-              tabindex="0"
-              role="button"
-              aria-expanded="false"
-            >
-              <!-- Tabs: Unter 410px oben/horizontal gestapelt, ab 410px links/vertikal oben angedockt -->
-              {cardTabs.length > 0 && (
-                <div
-                  class="card-tabs flex shrink-0 select-none flex-wrap min-[410px]:flex-col gap-1 self-start z-10 -mb-px min-[410px]:mb-0 min-[410px]:-mr-px h-auto"
-                  data-card-tabs
-                  onclick="event.stopPropagation()"
-                >
-                  {cardTabs.map((tab) => {
-                    const abbr = getTabAbbr(tab);
-                    return (
-                      <div
-                        class="card-tab flex-initial min-w-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
-                        style="min-inline-size: 4ch;"
-                        data-card-tab
-                      >
-                        <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
-                          <span class="tab-label-full">{tab}</span>
-                          <span class="tab-label-short">{abbr}</span>
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+        {skillData.map((group) => (
+          <SkillCard skill={group} />
+        ))}
 
-              <!-- Kachel-Inhalt -->
-              <div
-                class="card-content flex-1 min-w-0 flex flex-col justify-between border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-5 sm:p-6 group-hover:border-zinc-400 dark:group-hover:border-zinc-600 transition-colors duration-200 ease-out"
-                style="--zone-header-h: 4.5rem;"
-              >
-                <!-- Zone 1: Titel & Index (ohne Header-Kategorie) -->
-                <div class="min-h-[var(--zone-header-h)] flex flex-col justify-between pb-2 mb-0 border-b border-zinc-100 dark:border-zinc-800/80">
-                  <div class="flex items-start justify-between gap-2">
-                    <h3 class="text-base font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight leading-snug">
-                      {group.title}
-                    </h3>
-                  </div>
-                </div>
-
-                <!-- Zone 2: Badges mit Skills (dynamische Höhe) -->
-                <div class="py-2.5 border-b border-zinc-100 dark:border-zinc-800/80 flex flex-col justify-start shrink-0">
-                  <div class="flex flex-wrap gap-1.5">
-                    {group.skills.map((skill) => (
-                      <span class="font-mono text-xs px-2 py-0.5 border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <!-- Zone 3: Beschreibung & Text-Expander (vollständige Höhe ohne Scrollbalken) -->
-                <div class="flex-1 flex flex-col justify-between pt-2.5 min-h-0">
-                  <div data-expand-full class="hidden pr-1 pb-3 mb-2.5">
-                    <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
-                      {group.description}
-                    </p>
-                  </div>
-
-                  <div class="mt-auto shrink-0 pb-1">
-                    <button
-                      type="button"
-                      data-expand-btn
-                      class="relative overflow-hidden font-mono text-[11px] leading-normal py-1 px-0.5 text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 underline underline-offset-2 transition-colors cursor-pointer after:content-[''] after:pointer-events-none after:absolute after:inset-0 after:-translate-y-full group-data-[expanded=true]:after:translate-y-full after:transition-none group-hover:after:translate-y-full group-data-[expanded=true]:group-hover:after:-translate-y-full group-hover:after:transition-transform group-hover:after:duration-[1200ms] group-hover:after:ease-out after:bg-[linear-gradient(180deg,transparent_15%,rgba(24,24,27,0.12)_50%,transparent_85%)] group-data-[expanded=true]:after:bg-[linear-gradient(0deg,transparent_15%,rgba(24,24,27,0.12)_50%,transparent_85%)] dark:after:bg-[linear-gradient(180deg,transparent_15%,rgba(255,255,255,0.22)_50%,transparent_85%)] dark:group-data-[expanded=true]:after:bg-[linear-gradient(0deg,transparent_15%,rgba(255,255,255,0.22)_50%,transparent_85%)]"
-                    >
-                      [mehr Info]
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        <SkillCard skill={{
+          title: "...",
+          tabs: ["In Planung"],
+          isPlaceholder: true,
+          skills: ["Kotlin lernen", "Mehr agentic Workflows mit LangGraph", "Mehr N8N-Workflows", "Finetuning SLMs", "Qdrant", "pgvector"]
+        }} />
       </Carousel>
     </div>
   </div>
