@@ -1,9 +1,20 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Skills from '../components/Skills.astro';
 import Projects from '../components/Projects.astro';
+import { presentProjects, presentSkills, presentHero } from '../lib/presenters';
 import { Mail, Linkedin, ArrowUpRight } from 'lucide-astro';
+
+// Datenabruf über native Astro Content Layer API
+const rawProjects = await getCollection('projects');
+const rawSkills = await getCollection('skills');
+
+// Transformation via Pure Presenters
+const { projects, placeholderProject } = presentProjects(rawProjects);
+const { skills, placeholderSkill } = presentSkills(rawSkills);
+const heroProps = presentHero();
 ---
 
 <BaseLayout
@@ -11,13 +22,13 @@ import { Mail, Linkedin, ArrowUpRight } from 'lucide-astro';
   description="Portfolio von Tom Schmidt mit Fokus auf RAG-Systeme, Machine Learning, Backend-Entwicklung und Softwarearchitektur."
 >
   <!-- 1. Profil / Hero-Bereich -->
-  <Hero />
+  <Hero {...heroProps} />
 
   <!-- 2. Technisches Profil & Kenntnisse (Skills) -->
-  <Skills />
+  <Skills skills={skills} placeholderSkill={placeholderSkill} />
 
   <!-- 3. Künstliche Intelligenz (KI-Sektion) -->
-  <Projects />
+  <Projects projects={projects} placeholderProject={placeholderProject} />
 
   <!-- 4. Kontakt -->
   <section id="contact" class="scroll-mt-24 py-16 md:py-24 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">

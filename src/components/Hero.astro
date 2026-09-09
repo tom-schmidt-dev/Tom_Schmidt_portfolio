@@ -1,5 +1,11 @@
 ---
 import { ArrowRight } from 'lucide-astro';
+import type { HeroProps } from '../lib/presenters/heroPresenter';
+import { DEFAULT_HERO_PROPS } from '../lib/presenters/heroPresenter';
+
+export interface Props extends HeroProps {}
+
+const props = { ...DEFAULT_HERO_PROPS, ...Astro.props };
 ---
 <div class="w-full">
 <section id="about" class="scroll-mt-24 relative py-12 md:py-23 min-h-[auto] border-b border-zinc-200 dark:border-zinc-800 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">
@@ -83,14 +89,14 @@ import { ArrowRight } from 'lucide-astro';
           <span class="whitespace-nowrap">Hallo, ich bin</span><br>Tom Schmidt.
         </h1>
         <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed pt-1">
-          Als Informatikstudent im achten Semester suche ich eine Werkstudentenstelle, bei der ich meine in Uniprojekten sowie privat gesammelte Erfahrung im Bereich KI-Engineering einbringen und vertiefen kann. Mit Kenntnissen bspw. in Python, RAG und LangGraph-Workflows sowie im Umgang mit Docker und Linux bringe ich eine solide Basis mit.
+          {props.bioParagraph1}
         </p>
       </div>
 
       <!-- Spalte 3 (Textspalte 2) -->
       <div class="space-y-6 flex flex-col justify-between h-full">
         <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed pt-1">
-          Ich habe den Anspruch, mich schnellstmöglich in bestehende Strukturen einzuarbeiten, um Verantwortung für Teilaufgaben zu übernehmen. Meine Projekterfahrung, sowie, dass ich bereits alle Module meines Bachelorstudiums abgeschlossen habe, kommt mir dahingehend zugute. Für das Sommersemester 2027 strebe ich an, meine Bachelorarbeit entsprechend einer für ein Unternehmen interessanten Fragestellung zu schreiben.
+          {props.bioParagraph2}
         </p>
           <!-- CTA Action Buttons -->
         <div class="flex flex-wrap items-center gap-3 pt-2">
@@ -314,90 +320,7 @@ import { ArrowRight } from 'lucide-astro';
 
   <!-- Schließt den Breiten-Container max-w-[90rem] (aus Zeile 6) -->
   </div>
-  <script>
-    function initTerminal() {
-      const terminals = document.querySelectorAll<HTMLElement>('.spec-terminal');
-      terminals.forEach((terminal) => {
-        if (terminal.dataset.initialized === 'true') return;
-        terminal.dataset.initialized = 'true';
-        // --- 1. Hauptmodus-Umschaltung (Short Facts <-> Chatbot) ---
-        const modeTabs = terminal.querySelectorAll<HTMLButtonElement>('[data-mode-tab]');
-        const viewFacts = terminal.querySelector<HTMLElement>('[data-mode-view="facts"]');
-        const viewChat = terminal.querySelector<HTMLElement>('[data-mode-view="chat"]');
-
-        modeTabs.forEach((tab) => {
-          tab.addEventListener('click', () => {
-            const targetMode = tab.getAttribute('data-mode-tab');
-
-            modeTabs.forEach((t) => {
-              t.classList.remove('font-bold', 'text-zinc-900', 'dark:text-zinc-100');
-              t.classList.add('text-zinc-400', 'dark:text-zinc-500');
-            });
-            tab.classList.remove('text-zinc-400', 'dark:text-zinc-500');
-            tab.classList.add('font-bold', 'text-zinc-900', 'dark:text-zinc-100');
-
-            if (targetMode === 'facts') {
-              viewFacts?.classList.remove('hidden');
-              viewFacts?.classList.add('flex');
-              viewChat?.classList.add('hidden');
-              viewChat?.classList.remove('flex');
-            } else if (targetMode === 'chat') {
-              viewChat?.classList.remove('hidden');
-              viewChat?.classList.add('flex');
-              viewFacts?.classList.add('hidden');
-              viewFacts?.classList.remove('flex');
-            }
-          });
-        });
-
-        // --- 2. Sub-Tabs für Short Facts ([01], [02], [03]) ---
-        const tabs = terminal.querySelectorAll<HTMLButtonElement>('[data-spec-tab]');
-        const panels = terminal.querySelectorAll<HTMLElement>('[data-spec-panel]');
-
-        const activeClasses = [
-          'border-zinc-900',
-          'dark:border-zinc-100',
-          'bg-transparent',
-          'text-zinc-950',
-          'dark:text-white'
-        ];
-        const inactiveClasses = [
-          'border-zinc-300',
-          'dark:border-zinc-700',
-          'bg-transparent',
-          'text-zinc-500',
-          'hover:text-zinc-900',
-          'dark:hover:text-zinc-100'
-        ];
-
-        tabs.forEach((tab) => {
-          tab.addEventListener('click', () => {
-            const targetKey = tab.getAttribute('data-spec-tab');
-
-            tabs.forEach((t) => {
-              t.classList.remove(...activeClasses);
-              t.classList.add(...inactiveClasses);
-            });
-            tab.classList.remove(...inactiveClasses);
-            tab.classList.add(...activeClasses);
-
-            panels.forEach((panel) => {
-              if (panel.getAttribute('data-spec-panel') === targetKey) {
-                panel.classList.remove('hidden');
-                panel.classList.add('block');
-              } else {
-                panel.classList.add('hidden');
-                panel.classList.remove('block');
-              }
-            });
-          });
-        });
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', initTerminal);
-    document.addEventListener('astro:page-load', initTerminal);
-  </script>
+  <script src="../scripts/tabs.ts"></script>
 
 </section>
 </div>

@@ -1,22 +1,16 @@
 ---
-import { getTabAbbr } from '../utils/tabs';
-
-export interface SkillItem {
-  index?: string;
-  title: string;
-  tabs?: string[];
-  description?: string;
-  skills: string[];
-  isPlaceholder?: boolean;
-}
+import type { SkillCardViewModel } from '../lib/presenters/skillPresenter';
 
 export interface Props {
-  skill: SkillItem;
+  skill: SkillCardViewModel;
 }
 
 const { skill } = Astro.props;
-const isPlaceholder = skill.isPlaceholder || skill.title === '...';
-const tabs: string[] = skill.tabs ?? [];
+const {
+  isPlaceholder,
+  tabs,
+  tabItems,
+} = skill;
 ---
 
 {isPlaceholder ? (
@@ -31,21 +25,18 @@ const tabs: string[] = skill.tabs ?? [];
         data-card-tabs
         onclick="event.stopPropagation()"
       >
-        {tabs.map((tab) => {
-          const abbr = getTabAbbr(tab);
-          return (
-            <div
-              class="card-tab flex-initial min-w-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
-              style="min-inline-size: 4ch;"
-              data-card-tab
-            >
-              <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
-                <span class="tab-label-full">{tab}</span>
-                <span class="tab-label-short">{abbr}</span>
-              </span>
-            </div>
-          );
-        })}
+        {tabItems.map(({ label, abbr }) => (
+          <div
+            class="card-tab flex-initial min-w-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
+            style="min-inline-size: 4ch;"
+            data-card-tab
+          >
+            <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
+              <span class="tab-label-full">{label}</span>
+              <span class="tab-label-short">{abbr}</span>
+            </span>
+          </div>
+        ))}
       </div>
     )}
 
@@ -110,21 +101,18 @@ const tabs: string[] = skill.tabs ?? [];
         data-card-tabs
         onclick="event.stopPropagation()"
       >
-        {tabs.map((tab) => {
-          const abbr = getTabAbbr(tab);
-          return (
-            <div
-              class="card-tab flex-initial min-w-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
-              style="min-inline-size: 4ch;"
-              data-card-tab
-            >
-              <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
-                <span class="tab-label-full">{tab}</span>
-                <span class="tab-label-short">{abbr}</span>
-              </span>
-            </div>
-          );
-        })}
+        {tabItems.map(({ label, abbr }) => (
+          <div
+            class="card-tab flex-initial min-w-0 inline-flex items-center justify-center px-2.5 py-1 min-[410px]:py-2.5 min-[410px]:px-1.5 rounded-t-md rounded-b-none min-[410px]:rounded-l-md min-[410px]:rounded-r-none border border-b-0 min-[410px]:border-b min-[410px]:border-r-0 border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xs overflow-hidden"
+            style="min-inline-size: 4ch;"
+            data-card-tab
+          >
+            <span class="card-tab-label font-mono text-[11px] sm:text-xs tracking-wider text-zinc-700 dark:text-zinc-300 whitespace-nowrap overflow-hidden text-ellipsis">
+              <span class="tab-label-full">{label}</span>
+              <span class="tab-label-short">{abbr}</span>
+            </span>
+          </div>
+        ))}
       </div>
     )}
 

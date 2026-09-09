@@ -1,9 +1,14 @@
 ---
 import Carousel from './Carousel.astro';
-import SkillCard, { type SkillItem } from './SkillCard.astro';
-import skillDataRaw from '../data/skills.json';
+import SkillCard from './SkillCard.astro';
+import type { SkillCardViewModel } from '../lib/presenters/skillPresenter';
 
-const skillData = skillDataRaw as SkillItem[];
+export interface Props {
+  skills: SkillCardViewModel[];
+  placeholderSkill?: SkillCardViewModel;
+}
+
+const { skills, placeholderSkill } = Astro.props;
 ---
 
 <section id="skills" class="scroll-mt-24 py-16 md:py-24 border-b border-zinc-200 dark:border-zinc-800 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">
@@ -25,16 +30,13 @@ const skillData = skillDataRaw as SkillItem[];
     <!-- Skill Cards Carousel -->
     <div class="carousel-zoom-wrapper">
       <Carousel id="carousel-skills" ariaLabel="Technische Kenntnisse" cardHeightCollapsed="23.5rem">
-        {skillData.map((group) => (
+        {skills.map((group) => (
           <SkillCard skill={group} />
         ))}
 
-        <SkillCard skill={{
-          title: "...",
-          tabs: ["In Planung"],
-          isPlaceholder: true,
-          skills: ["Kotlin lernen", "Mehr agentic Workflows mit LangGraph", "Mehr N8N-Workflows", "Finetuning SLMs", "Qdrant", "pgvector"]
-        }} />
+        {placeholderSkill && (
+          <SkillCard skill={placeholderSkill} />
+        )}
       </Carousel>
     </div>
   </div>

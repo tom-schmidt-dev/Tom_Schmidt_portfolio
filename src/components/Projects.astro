@@ -1,17 +1,14 @@
 ---
 import Carousel from './Carousel.astro';
 import ProjectCard from './ProjectCard.astro';
-import projectsData from '../data/projects.json';
+import type { ProjectCardViewModel } from '../lib/presenters/projectPresenter';
 
-const projects = [
-  projectsData[0],
-  projectsData[1],
-  projectsData[2],
-  projectsData[3],
-  projectsData[5],
-  projectsData[4],
+export interface Props {
+  projects: ProjectCardViewModel[];
+  placeholderProject?: ProjectCardViewModel;
+}
 
-];
+const { projects, placeholderProject } = Astro.props;
 ---
 
 <section id="projects" class="scroll-mt-24 py-16 md:py-24 border-b border-zinc-200 dark:border-zinc-800 transition-[background-color] duration-150 ease-out hover:bg-zinc-200/70 dark:hover:bg-zinc-800/70">
@@ -41,14 +38,9 @@ const projects = [
           <ProjectCard project={project} />
         ))}
 
-        <ProjectCard project={{
-          id: "placeholder-projects",
-          title: "Projekte, die ich umsetzen möchte",
-          category: "Ideensammlung",
-          tabs: ["In Planung"],
-          isPlaceholder: true,
-          tags: ["Simple Notizapp in Kotlin", "App für Lebensmittelverwaltung", "Personal Assistant mit RAG", "HomeAssistant ins HomeLab einbinden"]
-        }} />
+        {placeholderProject && (
+          <ProjectCard project={placeholderProject} />
+        )}
       </Carousel>
     </div>
 
