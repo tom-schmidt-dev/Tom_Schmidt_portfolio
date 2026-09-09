@@ -25,6 +25,7 @@
       "Asyncio",
       "ffmpeg"
     ],
+    "githubUrl": "https://github.com/tom-schmidt-dev/Medienphilosophen-Speech-To-Speech",
     "ergebnis": [ 
       { 
         "category": "",
