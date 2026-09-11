@@ -13,6 +13,7 @@ export const ContentBlockSchema = z.union([z.string(), HighlightSectionSchema]);
 export const ProjectSchema = z.object({
   id: z.string(),
   title: z.string(),
+  shortTitle: z.string().optional(),
   tabs: z.array(z.string()).optional(),
   description: z.union([
     z.string(),
@@ -25,6 +26,7 @@ export const ProjectSchema = z.object({
   uni: z.boolean().optional(),
   isPlaceholder: z.boolean().optional(),
   tags: z.array(z.string()).optional(),
+  shortTags: z.array(z.string()).optional(),
   githubUrl: z.string().optional(),
   sourceUrl: z.string().optional(),
   liveUrl: z.string().optional(),

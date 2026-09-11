@@ -11,12 +11,14 @@ export type ContentBlock = string | HighlightSection;
 export interface ProjectCardViewModel {
   id: string;
   title: string;
+  shortTitle?: string;
   category: string;
   period?: string;
   privat?: boolean;
   uni?: boolean;
   isPlaceholder: boolean;
   tags: string[];
+  shortTags?: string[];
   sourceUrl?: string;
   tabs: string[];
   tabItems: TabItem[];
@@ -98,12 +100,14 @@ export function presentProjectCard(raw: ProjectInput): ProjectCardViewModel {
   return {
     id: raw.id ?? '',
     title: raw.title,
+    shortTitle: raw.shortTitle,
     category: raw.category ?? '',
     period: raw.period,
     privat: raw.privat,
     uni: raw.uni,
     isPlaceholder,
     tags: raw.tags ?? [],
+    shortTags: raw.shortTags ?? [],
     sourceUrl,
     tabs: rawTabs,
     tabItems,

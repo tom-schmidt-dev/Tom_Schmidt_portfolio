@@ -211,6 +211,109 @@
     ]
   },
   {
+  "id": "Kuchenautomat-Systemarchitektur",
+  "shortTitle": "Modulare Automatenverwaltung",
+  "title": "Modulares Automaten-Verwaltungssystem mit Dekorator-Architektur, Event-Driven CLI/GUI, Concurrency und Mockito",
+  "tabs": [
+    "GoF-Dekorator & Domäne",
+    "Event-System & CLI",
+    "JavaFX & MVVM",
+    "Concurrency & Observer",
+    "Testing & Mockito"
+  ],
+  "period": "04.2025 – 10.2025",
+  "description": {
+    "category": "Aufgabenstellung im Modul 'Programmierung 3' (B.Sc. Informatik):",
+    "items": [
+      "Entwicklung eines vollumfänglichen Automatenverwaltungssystems in Java unter Einhaltung strenger Kapselungs-, Schichten- und Modularisierungsvorgaben.",
+      "Praktische Umsetzung des GoF-Dekoratorpatterns zur dynamischen Kuchenzusammensetzung, einer zweistufigen Event-Architektur, threadsicherer Geschäftslogik mit Fair Locks, MVVM-GUI und umfassender Verhaltensprüfung mit Mockito."
+    ]
+  },
+  "category": "Solo",
+  "privat": false,
+  "uni": true,
+  "tags": [
+    "Java",
+    "JavaFX",
+    "FXML",
+    "OOP",
+    "GoF Decorator Pattern",
+    "GoF Visitor Pattern",
+    "Event-Driven Architecture",
+    "MVC / MVVM",
+    "Multithreading (Fair Locks)",
+    "Observer Pattern",
+    "JUnit 5",
+    "Mockito",
+    "Java Serialization (JOS)"
+  ],
+  "shortTags": [
+    "Java",
+    "JavaFX",
+    "FXML",
+    "OOP",
+    "GoF Decorator Pattern",
+    "GoF Visitor Pattern",
+    "Event-Driven Architecture",
+    "MVC / MVVM",
+    "..."
+  ],
+  "ergebnis": [
+    {
+      "category": "",
+      "items": [
+        "Vollständig modularisiertes Verwaltungssystem mit strenger Kapselung über Interfaces und Submodule ohne unzulässige Downcasts.",
+        "Flexibles Kuchen-Domänenmodell über das GoF-Dekoratormuster mit korrekter Aggregation von Preis, Nährwert, Allergenen und Resthaltbarkeit.",
+        "Zwei Benutzeroberflächen (vollständiges/alternatives CLI sowie datengebundene JavaFX-GUI), entkoppelt über ein typisiertes Request-/Feedback-Eventsystem.",
+        "Umfassende Testabdeckung der Geschäftslogik mit isolierten Unit-, Spy- und Mock-Tests unter JUnit 5 und Mockito ohne fehlschlagende Testläufe."
+      ]
+    }
+  ],
+  "highlights": [
+    {
+      "category": "GoF-Dekoratormuster & Domänenmodell",
+      "items": [
+        "Strukturierung der Kuchen über das Decorator-Pattern: Basiskomponente dynamisch umhüllt von Belägen (Früchte, Sahne, Pudding).",
+        "Rekursive Aggregation der Kuchen-Eigenschaften über den Dekorator-Baum: Exakte Preis- und Nährwertaddition, Vereinigung der Allergen-Sets und Ermittlung der geringsten Haltbarkeit.",
+        "Entkopplung zeitabhängiger Geschäftslogik über das 'Zeitstempel'-Interface zur deterministischen Berechnung von Resthaltbarkeiten und Mockbarkeit in Tests.",
+        "Schutz vor Datenmanipulation durch konsequente Bereitstellung defensiver Kopien bei Datumsfeldern."
+      ]
+    },
+    {
+      "category": "Zweistufiges Event-System & Visitor-Pattern",
+      "items": [
+        "Entkoppelte Interaktion zwischen Frontend und Geschäftslogik über dedizierte Request-Events und Feedback-Events.",
+        "Einsatz des Visitor-Patterns zur typisierten Weiterleitung und Ausführung im 'EventProcessor'.",
+        "Bereitstellung eines vollständigen CLIs sowie eines alternativen CLIs mit gezielt deaktivierten Schnittstellenfunktionen gemäß Prüfungsanforderung."
+      ]
+    },
+    {
+      "category": "Nebenläufigkeit, Fair Locks & Observer",
+      "items": [
+        "Threadsichere Geschäftslogik abgesichert durch faire ReentrantLocks zur Vermeidung von Race Conditions und Thread-Starvation.",
+        "Zwei aktive GoF-Beobachter: Warnung bei Überschreitung von 90 % Füllstand und Reaktion auf veränderte Allergenvorkommen.",
+        "Multithreading-Simulationen mit parallelen Worker-Threads unter Verwendung deterministischer/semi-randomisierter Bereitsteller."
+      ]
+    },
+    {
+      "category": "JavaFX-GUI mit MVVM-Datenbindung",
+      "items": [
+        "Vollständige Entkopplung der Benutzeroberfläche über das MVVM-Pattern und FXML-Layout.",
+        "Bidirektionale Datenbindung von Eingabefeldern an 'StringProperty'-Instanzen sowie Bindung von Button-Zuständen.",
+        "Automatische Tabellenaktualisierung und Fachnummern-Austauschlogik zur Vorbereitung von Drag-and-Drop-Operationen."
+      ]
+    },
+    {
+      "category": "Testqualität & Mockito-Verifikation",
+      "items": [
+        "Umfassende Testsuite in JUnit 5 unter Einsatz von Mocks, Spies ('Mockito.spy') und 'doNothing()'-Stubs zur isolierten Komponentenüberprüfung.",
+        "Spezifische Verifikation von Nebenwirkungen: Sicherstellung von 'meldeAn'-Aufrufen, Verifizierung von 'never().setInspektionsdatum(null)' und Prüfung von Cache-Invalidierungen.",
+        "Robuste Absicherung der Rand- und Fehlerfälle: Automat-Voll-Zustände, Slot-Wiedervergabe nach Löschung, Null-Payloads und ungültige DTO-Zustände."
+      ]
+    }
+  ]
+  },
+  {
     "id": "homelab-infrastructure",
     "title": "Homelab-Infrastruktur & Cloud-Services mit Proxmox und Docker",
     "tabs": ["Infrastruktur", "Backend", "Diverses"],

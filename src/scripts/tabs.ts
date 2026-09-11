@@ -9,6 +9,11 @@ export const TAB_ABBREVIATIONS: Record<string, string> = {
   'Datenaufbereitung': 'Datenaufb.',
   'Software-Architektur': 'Architektur',
   'Webinterface': 'Web',
+  'GoF-Dekorator & Domäne': 'Dekorator',
+  'Event-System & CLI': 'Events',
+  'JavaFX & MVVM': 'MVVM',
+  'Concurrency & Observer': 'Threads',
+  'Testing & Mockito': 'Tests',
 };
 
 export interface TabItem {
